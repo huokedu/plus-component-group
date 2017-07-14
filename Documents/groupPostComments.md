@@ -1,7 +1,7 @@
 # 圈子动态评论列表
 
 ```
-GET /groups/{group}/posts/{post}
+GET /groups/{group}/posts/{post}/comments
 ```
 
 ### Parameters

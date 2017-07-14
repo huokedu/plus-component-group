@@ -40,7 +40,7 @@ Route::prefix('/groups')->group(function () {
     	Route::post('/', 'GroupController@store');
 
     	// 加入的圈子
-    	Route::get('/join', 'GroupController@joined');
+    	Route::get('/joined', 'GroupController@joined');
 
     	// 加入
     	Route::post('/{group}/join', 'GroupMemberController@join')
@@ -55,7 +55,7 @@ Route::prefix('/groups')->group(function () {
     		->where('group', '[0-9]+');
 
         // 创建帖子评论
-        Route::post('/{group}/posts/{post}/comments', 'GroupPostCommentController@store')
+        Route::post('/{group}/posts/{post}/comment', 'GroupPostCommentController@store')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 
@@ -66,22 +66,22 @@ Route::prefix('/groups')->group(function () {
             ->where('comment', '[0-9]+');
 
         // 点赞动态
-        Route::post('/{group}/posts/{post}/diggs', 'GroupPostDiggController@store')
+        Route::post('/{group}/posts/{post}/digg', 'GroupPostDiggController@store')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 
         // 取赞动态
-        Route::delete('/{group}/posts/{post}/diggs', 'GroupPostDiggController@destory')
+        Route::delete('/{group}/posts/{post}/digg', 'GroupPostDiggController@destory')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 
         // 收藏动态
-        Route::post('/{group}/posts/{post}/collections', 'GroupPostCollectionController@store')
+        Route::post('/{group}/posts/{post}/collection', 'GroupPostCollectionController@store')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 
         // 取消收藏动态
-        Route::delete('/{group}/posts/{post}/collections', 'GroupPostCollectionController@destory')
+        Route::delete('/{group}/posts/{post}/collection', 'GroupPostCollectionController@destory')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 

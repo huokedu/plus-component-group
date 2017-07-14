@@ -1,7 +1,7 @@
 # 对圈子动态点赞
 
 ```
-POST /groups/{group}/posts/{post}/diggs
+POST /groups/{group}/posts/{post}/digg
 ```
 
 

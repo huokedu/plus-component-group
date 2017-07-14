@@ -1,7 +1,7 @@
 # 圈子列表
 
 ```
-GET /groups/{group}/members
+GET /groups/joined
 ```
 
 ### Parameters

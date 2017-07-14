@@ -1,7 +1,7 @@
 # 取消对圈子动态收藏
 
 ```
-DELETE /groups/{group}/posts/{post}/diggs
+DELETE /groups/{group}/posts/{post}/collection
 ```
 
 
