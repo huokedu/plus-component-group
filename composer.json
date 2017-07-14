@@ -1,0 +1,17 @@
+{
+    "name": "zhiyicx/plus-component-group",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentGroup\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentGroup\\GroupServiceProvider"
+            ]
+        }
+    },
+    "version": "0.0.1"
+}
