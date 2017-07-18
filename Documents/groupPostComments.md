@@ -20,7 +20,9 @@ Status: 200 OK
 ```
 ```json5
 {
-    "message": "获取成功",
+    "message": [
+        "获取成功"
+    ],
     "data": [
         {
             "id": 14,
@@ -40,4 +42,8 @@ Status: 200 OK
         }
     ]
 }
+```
+
+```
+status 404 Not Found
 ```

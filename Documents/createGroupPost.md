@@ -31,7 +31,9 @@ Status: 201 OK
 ```
 ```json5
 {
-    "message": "创建成功",
+    "message": [
+        "创建成功"
+    ],
     "id": 11
 }
 ```

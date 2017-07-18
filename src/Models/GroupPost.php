@@ -16,8 +16,7 @@ class GroupPost extends Model
 	];
 
 	protected $with = [
-		'images',
-		'group'
+		'images'
 	];
 	
 	/**
@@ -40,7 +39,7 @@ class GroupPost extends Model
 	 * 动态的评论
 	 * @return [type] [description]
 	 */
-	public function comments() {
+	public function hascomments() {
 		return $this->hasMany(GroupPostComment::class, 'post_id');
 	}
 

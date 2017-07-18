@@ -29,7 +29,8 @@ class Group extends Model
 	protected $with = [
 		'avatar',
 		'cover',
-		'members'
+		'members',
+		'managers'
 	];
 
 	// /**

@@ -26,7 +26,9 @@ Status: 201 OK
 ```
 ```json5
 {
-    "message": "评论成功",
+    "message": [
+        "评论成功"
+    ],
     "data": {
         "id": 14,
         "created_at": 1500027233,

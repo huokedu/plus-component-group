@@ -19,13 +19,13 @@ GET /groups/{group}/posts/{post}/diggs
 Status: 200 OK
 ```
 ```json5
-{
-    "message": "获取成功",
-    "data": [
-        {
-            "id": 6,
-            "user_id": 2
-        }
-    ]
-}
+[
+    {
+        "id": 6,
+        "user_id": 2
+    }
+]
+```
+```
+Status 404 Not Found
 ```

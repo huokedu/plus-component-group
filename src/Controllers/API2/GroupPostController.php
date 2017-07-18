@@ -31,7 +31,16 @@ class GroupPostController extends Controller
 			->limit($limit)
 			->orderBy('id', 'desc')
 			->get();
+
 		if($posts->isEmpty()) abort(404, '没有动态');
+
+		$posts->map( function ($post) {
+			$post->commentslist = $post->hascomments()->orderBy('id', 'desc')
+				->limit(5)
+				->get();
+			return $post;
+		});
+
 		return response()->json($posts)->setStatusCode(200);
 	}
 

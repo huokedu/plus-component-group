@@ -13,6 +13,8 @@ Status: 201 OK
 ```
 ```json5
 {
-    "message": "点赞成功"
+    "message": [
+        "点赞成功"
+    ]
 }
 ```

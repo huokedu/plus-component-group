@@ -40,6 +40,7 @@ class GroupMemberController extends Controller
 			->orderBy('id', 'ASC')
 			->limit($limit)
 			->get();
+			
 		return response()->json($members)->setStatusCode(200);
 	}
 

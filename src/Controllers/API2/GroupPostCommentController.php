@@ -36,6 +36,8 @@ class GroupPostCommentController extends Controller
 			->limit($limit)
 			->orderBy('id', 'desc')
 			->get();
+			
+		if($comments->isEmpty()) abort(404);
 
 		return response()->json($comments)->setStatusCode(200);
 	}

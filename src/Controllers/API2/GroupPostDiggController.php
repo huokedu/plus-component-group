@@ -40,6 +40,7 @@ class GroupPostDiggController extends Controller
 			->orderBy('id', 'desc')
 			->get();
 
+		if($diggs->isEmpty()) abort(404);
 		return response()->json($diggs)->setStatusCode(200);
 	}
 

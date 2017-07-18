@@ -12,24 +12,62 @@ Status: 200 OK
 ```
 ```json5
 {
-    "message": "获取成功",
-    "data": {
-        "id": 10,
-        "title": "哈哈哈，我可以发帖了",
-        "content": "来来来来来，快看我嘚瑟不??",
-        "group_id": 2,
-        "views": 3,
-        "diggs": 1,
-        "collections": 0,
-        "comments": 3,
-        "user_id": 2,
+    "id": 2,
+    "title": "hehehsdfasdfasdf",
+    "content": "hahahahha",
+    "group_id": 1,
+    "views": 2,
+    "diggs": 0,
+    "collections": 0,
+    "comments": 0,
+    "user_id": 2,
+    "is_audit": 1,
+    "created_at": "2017-07-18 04:17:19",
+    "updated_at": "2017-07-18 04:17:19",
+    "is_collection": 0,
+    "is_digg": 0,
+    "images": [
+        {
+            "raw": "2",
+            "size": "1200x800",
+            "file_id": 3
+        },
+        {
+            "raw": "2",
+            "size": "600x1065",
+            "file_id": 4
+        }
+    ],
+    "group": {
+        "id": 1,
+        "title": "heheh",
+        "intro": "hahahahha",
         "is_audit": 1,
-        "created_at": "2017-07-13 07:39:16",
-        "updated_at": "2017-07-14 09:55:12",
-        "is_collection": 1,
-        "is_digg": 0
+        "posts_count": 2,
+        "memebers_count": 1,
+        "created_at": "2017-07-18 03:51:40",
+        "avatar": {
+            "raw": "1",
+            "size": "1920x1080",
+            "file_id": 1
+        },
+        "cover": {
+            "raw": "1",
+            "size": "600x600",
+            "file_id": 2
+        },
+        "members": [
+            {
+                "id": 1,
+                "user_id": 2,
+                "created_at": "2017-07-18 03:51:40"
+            }
+        ]
     }
 }
+```
+```
+Status 404 Not Found
 ```
 
 > 动态评论在单独的接口中获取

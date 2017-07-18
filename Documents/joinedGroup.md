@@ -19,52 +19,47 @@ GET /groups/joined
 Status: 200 OK
 ```
 ```json5
-{
-    "message": [
-        "获取成功"
-    ],
-    "data": [
-        {
-            "id": 3,
-            "title": "哈哈哈，我可以发帖了",
-            "intro": "来来来来来，快看我嘚瑟不??",
-            "is_audit": 0,
-            "posts_count": 0,
-            "members_count": 1,
-            "created_at": "2017-07-14 09:39:14",
-            "pivot": {
-                "user_id": 2,
-                "group_id": 3
-            }
-        },
-        {
-            "id": 2,
-            "title": "group 2",
-            "intro": "group2 description",
-            "is_audit": 1,
-            "posts_count": 4,
-            "members_count": 1,
-            "created_at": "2017-07-11 10:28:14",
-            "pivot": {
-                "user_id": 2,
-                "group_id": 2
-            }
-        },
-        {
-            "id": 1,
-            "title": "group 1",
-            "intro": "group1 description",
-            "is_audit": 1,
-            "posts_count": 0,
-            "members_count": 1,
-            "created_at": "2017-07-11 10:28:14",
-            "pivot": {
-                "user_id": 2,
-                "group_id": 1
-            }
+[
+    {
+        "id": 3,
+        "title": "哈哈哈，我可以发帖了",
+        "intro": "来来来来来，快看我嘚瑟不??",
+        "is_audit": 0,
+        "posts_count": 0,
+        "members_count": 1,
+        "created_at": "2017-07-14 09:39:14",
+        "pivot": {
+            "user_id": 2,
+            "group_id": 3
         }
-    ]
-}
+    },
+    {
+        "id": 2,
+        "title": "group 2",
+        "intro": "group2 description",
+        "is_audit": 1,
+        "posts_count": 4,
+        "members_count": 1,
+        "created_at": "2017-07-11 10:28:14",
+        "pivot": {
+            "user_id": 2,
+            "group_id": 2
+        }
+    },
+    {
+        "id": 1,
+        "title": "group 1",
+        "intro": "group1 description",
+        "is_audit": 1,
+        "posts_count": 0,
+        "members_count": 1,
+        "created_at": "2017-07-11 10:28:14",
+        "pivot": {
+            "user_id": 2,
+            "group_id": 1
+        }
+    }
+]
 ```
 
 > pivot 可以忽略, 中间关系
