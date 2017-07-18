@@ -18,7 +18,7 @@ class TableGroupMembers extends Migration
             $table->integer('user_id')->index()->unsigned()->comment('member_user_id');
             $table->integer('group_id')->index()->unsigned()->comment('group_id of member');
             $table->unique(['user_id', 'group_id']); // 唯一聚合索引
-            $table->tinyInteger('is_audit')->unsigned()->default(1)->comment('if user is audited')
+            $table->tinyInteger('is_audit')->unsigned()->default(1)->comment('if user is audited');
             $table->timestamps();
         });
     }

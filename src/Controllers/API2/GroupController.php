@@ -62,6 +62,11 @@ class GroupController extends Controller
 
 		$userModel = UserModel::findOrFail($user);
 		$groups = $userModel->groups()
+			->with([
+				'avatar',
+				'cover',
+				'members'
+			])
 			->where(function ($query) use ($after) {
 				if(!$after) {
 					return;
