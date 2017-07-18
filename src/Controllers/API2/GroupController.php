@@ -46,7 +46,9 @@ class GroupController extends Controller
 			->count();
 		})
 		;
-		return response()->json(['message' => ['获取成功'], 'data' => $groups])->setStatusCode(200);
+
+		if($groups->isEmpty()) abort(404, '没有圈子');
+		return response()->json($groups)->setStatusCode(200);
 	}
 
 	/**
@@ -59,7 +61,7 @@ class GroupController extends Controller
 		$limit = $request->query('limit', 15);
         $after = $request->query('after');
 		$user = $request->user('api')->id ?: 0;
-
+		
 		$userModel = UserModel::findOrFail($user);
 		$groups = $userModel->groups()
 			->with([
@@ -76,7 +78,7 @@ class GroupController extends Controller
 			->limit($limit)
 			->orderBy('id', 'desc')
 			->get();
-		return response()->json(['message' => ['获取成功'], 'data' => $groups])->setStatusCode(200);
+		return response()->json($groups)->setStatusCode(200);
 		
 		
 	}
@@ -133,10 +135,7 @@ class GroupController extends Controller
 				'founder' => $manager->founder
 			];
 		});
-		return $response->json([
-			'message' => '获取成功',
-			'data' => $group
-		])
+		return $response->json($group)
 		->setStatusCode(200);
 	}
 

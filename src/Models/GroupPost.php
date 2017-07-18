@@ -14,6 +14,11 @@ class GroupPost extends Model
 	protected $hidden = [
 		'deleted_at'	
 	];
+
+	protected $with = [
+		'images',
+		'group'
+	]
 	
 	/**
 	 * 属于哪个圈子

@@ -32,10 +32,7 @@ class GroupPostController extends Controller
 			->orderBy('id', 'desc')
 			->get();
 
-		return response()->json([
-			'message' => '获取成功',
-			'data' => $posts
-		])->setStatusCode(200);
+		return response()->json($posts)->setStatusCode(200);
 	}
 
 	/**
@@ -74,7 +71,7 @@ class GroupPostController extends Controller
 		$post->is_collection = GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
 		$post->is_digg = GroupPostDiggModel::where(['post_id' => $post, 'user_id' => $user])->count();
 
-		return response()->json(['message' => '获取成功', 'data' => $post])->setStatusCode(200);
+		return response()->json($post)->setStatusCode(200);
 	}
 
 	/**

@@ -34,10 +34,7 @@ class GroupPostCollectionController extends Controller
 			->orderBy('id', 'desc')
 			->get();
 
-		return response()->json([
-			'message' => '获取成功',
-			'data' => $collections
-		])->setStatusCode(200);
+		return response()->json($collections)->setStatusCode(200);
 	}
 
 	/**

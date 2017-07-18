@@ -40,10 +40,7 @@ class GroupPostDiggController extends Controller
 			->orderBy('id', 'desc')
 			->get();
 
-		return response()->json([
-			'message' => '获取成功',
-			'data' => $diggs
-		])->setStatusCode(200);
+		return response()->json($diggs)->setStatusCode(200);
 	}
 
 	/**
