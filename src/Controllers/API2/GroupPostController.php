@@ -31,7 +31,7 @@ class GroupPostController extends Controller
 			->limit($limit)
 			->orderBy('id', 'desc')
 			->get();
-
+		if($posts->isEmpty()) abort(404, '没有动态');
 		return response()->json($posts)->setStatusCode(200);
 	}
 
