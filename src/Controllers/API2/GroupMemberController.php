@@ -57,6 +57,14 @@ class GroupMemberController extends Controller
 
 		$user = $request->user('api')->id;
 
+		if( GroupMemberModel::where('user_id', $user)
+				->where('group_id', $group->id)
+				->first()
+			)
+		{
+			abort(400, '已经加入该圈子');
+		}
+
 		$newMember = new GroupMemberModel();
 		$newMember->group_id = $group->id;
 		$newMember->user_id = $user;
@@ -68,7 +76,8 @@ class GroupMemberController extends Controller
 				$group->save();
 			});
 		} catch (\Exception $e) {
-			abort(400);
+			throw $e;
+			// abort(400);
 		}
 		return response()->json([
                 'message' => '加入成功',
