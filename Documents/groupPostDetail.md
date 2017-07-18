@@ -1,4 +1,4 @@
-# 圈子详情
+# 圈子动态详情
 
 ```
 GET /groups/{group}/posts/{post}
@@ -37,33 +37,7 @@ Status: 200 OK
             "size": "600x1065",
             "file_id": 4
         }
-    ],
-    "group": {
-        "id": 1,
-        "title": "heheh",
-        "intro": "hahahahha",
-        "is_audit": 1,
-        "posts_count": 2,
-        "memebers_count": 1,
-        "created_at": "2017-07-18 03:51:40",
-        "avatar": {
-            "raw": "1",
-            "size": "1920x1080",
-            "file_id": 1
-        },
-        "cover": {
-            "raw": "1",
-            "size": "600x600",
-            "file_id": 2
-        },
-        "members": [
-            {
-                "id": 1,
-                "user_id": 2,
-                "created_at": "2017-07-18 03:51:40"
-            }
-        ]
-    }
+    ]
 }
 ```
 ```
