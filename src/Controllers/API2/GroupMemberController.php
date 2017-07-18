@@ -79,9 +79,7 @@ class GroupMemberController extends Controller
 			throw $e;
 			// abort(400);
 		}
-		return response()->json([
-                'message' => '加入成功',
-            ])->setStatusCode(201);
+		abort(201, '加入成功');
 	}
 
 	/**

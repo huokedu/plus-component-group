@@ -34,7 +34,7 @@ class GroupController extends Controller
 			}
 			$query->where('id', '<', $after);
 		})
-		->with(['avatar', 'cover', 'managers'])
+		// ->with(['avatar', 'cover', 'managers'])
 		->limit($limit)
 		->orderBy('id', 'desc')
 		->get();

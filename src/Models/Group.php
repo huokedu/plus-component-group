@@ -26,6 +26,12 @@ class Group extends Model
 		'deleted_at'
 	];
 
+	protected $with = [
+		'avatar',
+		'cover',
+		'members'
+	];
+
 	// /**
 	//  * 创始人
 	//  * @return [type] [description]

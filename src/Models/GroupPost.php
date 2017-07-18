@@ -18,7 +18,7 @@ class GroupPost extends Model
 	protected $with = [
 		'images',
 		'group'
-	]
+	];
 	
 	/**
 	 * 属于哪个圈子

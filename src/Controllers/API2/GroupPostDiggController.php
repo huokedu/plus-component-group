@@ -63,9 +63,7 @@ class GroupPostDiggController extends Controller
 		$user = $request->user('api')->id;
 
         if ($post->diggs()->where('user_id', $user)->first()) {
-            return response()->json([
-                'message' => ['已赞过该动态'],
-            ])->setStatusCode(400);
+           abort(400, '已赞过该动态');
         }
 
         DB::beginTransaction();
@@ -102,7 +100,7 @@ class GroupPostDiggController extends Controller
 
         dispatch(new PushMessage($alert, (string) $alias, $extras));
 
-        return response()->json(['message' => '点赞成功'])->setStatusCode(201);
+        abort(201, '点赞成功');
 	}
 
 	public function destory(Request $request, GroupModel $group, GroupPostModel $post)
@@ -130,6 +128,6 @@ class GroupPostDiggController extends Controller
             Digg::where(['component' => 'group', 'digg_id' => $digg->id])->delete(); // 统计到点赞总表
         });
 
-        return response()->json()->setStatusCode(204);
+        abort(204);
 	}
 }

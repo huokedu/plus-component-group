@@ -37,7 +37,7 @@ class GroupPostCommentController extends Controller
 			->orderBy('id', 'desc')
 			->get();
 
-		return response()->json(['message' => '获取成功', 'data' => $comments])->setStatusCode(200);
+		return response()->json($comments)->setStatusCode(200);
 	}
 
 	/**
@@ -76,14 +76,11 @@ class GroupPostCommentController extends Controller
 		}
 
 		return response()->json([
-			'message' => '评论成功',
-			'data' => [
 				'id' => $comment->id,
 				'created_at' => $comment->created_at->timestamp,
 				'user_id' => $comment->user_id,
 				'reply_to_user_id' => $comment->reply_to_user_id
-			]
-		])->setStatusCode(201);
+			])->setStatusCode(201);
 	}
 
 	/**

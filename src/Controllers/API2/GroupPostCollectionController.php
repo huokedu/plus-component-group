@@ -57,14 +57,12 @@ class GroupPostCollectionController extends Controller
 		$user = $request->user('api')->id;
 
         if ($post->collections()->where('user_id', $user)->first()) {
-            return response()->json([
-                'message' => ['已收藏过该动态'],
-            ])->setStatusCode(400);
+            abort(400, '已收藏过该动态');
         }
 
        	$post->collections()->create(['user_id' => $user]);
 
-        return response()->json(['message' => '收藏成功'])->setStatusCode(201);
+        abort(201, '收藏成功');
 	}
 
 	public function destory(Request $request, GroupModel $group, GroupPostModel $post)
@@ -80,13 +78,11 @@ class GroupPostCollectionController extends Controller
 		$user = $request->user('api')->id;
         $digg = $post->collections()->where('user_id', $user)->first();
         if (! $digg) {
-            return response()->json([
-                'message' => ['未收藏该动态'],
-            ])->setStatusCode(404);
+            abort(404, '未收藏该动态');
         }
 
         $post->collections()->where('user_id', $user)->delete();
 
-        return response()->json()->setStatusCode(204);
+        abort(204);
 	}
 }
