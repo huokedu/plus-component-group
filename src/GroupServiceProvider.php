@@ -20,7 +20,7 @@ class GroupServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerRouter();
-        $this->register();
+        // $this->register();
         // 注册观察者
         Comment::observe(Observers\PlusCommentObserver::class);
         GroupPostComment::observe(Observers\CommentObserver::class);
