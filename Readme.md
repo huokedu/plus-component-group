@@ -37,6 +37,8 @@ ThinkSNS+ 基础圈子应用
 
 - [圈子动态列表](/Documents/groupPosts.md)
 
+- [删除圈子动态](/Documents/deleteGroupPost.md)
+
 - [创建评论](/Documents/createGroupPostComment.md)
 
 - [动态评论列表](/Documents/groupPostComments.md)

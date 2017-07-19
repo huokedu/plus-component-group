@@ -27,7 +27,7 @@ class GroupPostCommentController extends Controller
 		$limit = $request->query('limit', 15);
 		$after = $request->query('after');
 
-		$comments = $post->comments()->where(function ($query) use ($after) {
+		$comments = $post->hascomments()->where(function ($query) use ($after) {
 			if($after) {
 				$query->where('id', '<', $after);
 			}
