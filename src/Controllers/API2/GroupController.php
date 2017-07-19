@@ -47,7 +47,6 @@ class GroupController extends Controller
 		})
 		;
 
-		if($groups->isEmpty()) abort(404, '没有圈子');
 		return response()->json($groups)->setStatusCode(200);
 	}
 

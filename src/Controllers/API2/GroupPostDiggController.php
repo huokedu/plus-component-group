@@ -40,7 +40,6 @@ class GroupPostDiggController extends Controller
 			->orderBy('id', 'desc')
 			->get();
 
-		if($diggs->isEmpty()) abort(404);
 		return response()->json($diggs)->setStatusCode(200);
 	}
 
@@ -64,7 +63,7 @@ class GroupPostDiggController extends Controller
 		$user = $request->user('api')->id;
 
         if ($post->diggs()->where('user_id', $user)->first()) {
-           abort(400, '已赞过该动态');
+           abort(422, '已赞过该动态');
         }
 
         DB::beginTransaction();
@@ -119,7 +118,7 @@ class GroupPostDiggController extends Controller
         if (! $digg) {
             return response()->json([
                 'message' => ['未对该动态点赞'],
-            ])->setStatusCode(404);
+            ])->setStatusCode(422);
         }
 
         DB::transaction(function () use ($digg, $post, $user) {

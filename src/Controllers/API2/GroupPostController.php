@@ -20,6 +20,7 @@ class GroupPostController extends Controller
 
 		$limit = $request->query('limit', 15);
 		$after = $request->query('after');
+		$user = $request->user('api')->id ?? 0;
 		
 		$posts = $group->posts()
 			->where(function ($query) use ($after) {
@@ -32,12 +33,12 @@ class GroupPostController extends Controller
 			->orderBy('id', 'desc')
 			->get();
 
-		if($posts->isEmpty()) abort(404, '没有动态');
-
-		$posts->map( function ($post) {
+		$posts->map( function ($post) use ($user) {
 			$post->commentslist = $post->hascomments()->orderBy('id', 'desc')
 				->limit(5)
 				->get();
+			$post->is_collection = GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
+			$post->is_digg = GroupPostDiggModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
 			return $post;
 		});
 
@@ -78,7 +79,7 @@ class GroupPostController extends Controller
 		// 	]);
 
 		$post->is_collection = GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
-		$post->is_digg = GroupPostDiggModel::where(['post_id' => $post, 'user_id' => $user])->count();
+		$post->is_digg = GroupPostDiggModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
 
 		return response()->json($post)->setStatusCode(200);
 	}
