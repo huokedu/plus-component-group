@@ -232,7 +232,7 @@ class GroupController extends Controller
 		foreach ($request->only(['title', 'intro', 'group_mark']) as $key => $value) {
 			$group[$key] = $value;
 		}
-		$group->is_audit = 0; // 前台申请的默认为未审核
+		$group->is_audit = 1; // 前台申请的默认为未审核
 		$group->group_client_ip = $request->getClientIp();
 
 		return $group;
