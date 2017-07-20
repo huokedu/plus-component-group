@@ -65,19 +65,6 @@ class GroupPostController extends Controller
 		$user = $request->user('api')->id ?? 0;
 		$post->increment('views');
 
-		// $post
-		// 	->load([
-		// 		'images',
-		// 		'comments' => function ($query) {
-		// 			$query->limit(15)
-		// 				->orderBy('id', 'desc');
-		// 		},
-		// 		'diggs' => function ($query) {
-		// 			$query->limit(8)
-		// 				->orderBy('id', 'desc');
-		// 		}
-		// 	]);
-
 		$post->is_collection = GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
 		$post->is_digg = GroupPostDiggModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
 
@@ -104,6 +91,7 @@ class GroupPostController extends Controller
 		$post->group_id = $group->id;
 		$post->user_id = $user;
 		$post->group_post_mark = $data['group_post_mark'];
+		$post->is_audit = 1;
 
 		try {
 			$group->getConnection()->transaction(function() use ($group, $fileWiths, $post) {
