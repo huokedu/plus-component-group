@@ -107,7 +107,7 @@ class GroupController extends Controller
             throw $e;
 		}
 		// 正在等待审核
-		return response()->json(['message' => ['提交成功,请等待管理员审核'], 'id' => $group->id])->setStatusCode(202);
+		return response()->json(['message' => ['提交成功,请等待管理员审核'], 'id' => $group->id, 'group_mark' => $group->group_mark ])->setStatusCode(202);
 	}
 
 	/**
@@ -229,7 +229,7 @@ class GroupController extends Controller
 	 */
 	protected function fillGroupBaseData(Request $request, GroupModel $group): GroupModel
 	{
-		foreach ($request->only(['title', 'intro']) as $key => $value) {
+		foreach ($request->only(['title', 'intro', 'group_mark']) as $key => $value) {
 			$group[$key] = $value;
 		}
 		$group->is_audit = 0; // 前台申请的默认为未审核

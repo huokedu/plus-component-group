@@ -95,7 +95,7 @@ class GroupPostController extends Controller
 
 		$fileWiths = $this->makeFileWith($request);
 
-		$data = $request->only(['title', 'content']);
+		$data = $request->only(['title', 'content', 'group_post_mark']);
 		$user = $request->user('api')->id;
 
 		$post = new GroupPostModel();
@@ -103,6 +103,7 @@ class GroupPostController extends Controller
 		$post->content = $data['content'];
 		$post->group_id = $group->id;
 		$post->user_id = $user;
+		$post->group_post_mark = $data['group_post_mark'];
 
 		try {
 			$group->getConnection()->transaction(function() use ($group, $fileWiths, $post) {
@@ -114,7 +115,7 @@ class GroupPostController extends Controller
 			throw $e;	
 		}
 		
-		return response()->json(['message' => '创建成功', 'id' => $post->id])->setStatusCode(201);
+		return response()->json(['message' => '创建成功', 'id' => $post->id, 'group_post_mark' => $post->group_post_mark ])->setStatusCode(201);
 	}
 
 	public function destory(Request $request, GroupModel $group, GroupPostModel $post)

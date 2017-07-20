@@ -21,6 +21,7 @@ class TableGroups extends Migration
             $table->string('group_client_ip')->nullable()->default('::1')->comment('申请ip');
             $table->integer('posts_count')->default(0)->comment('total posts of group');
             $table->integer('members_count')->default(1)->comment('totle members of group');
+            $table->unsignedBigInteger('group_mark')->comment('group_mark for group created');
             $table->timestamps();
             $table->softDeletes();
         });

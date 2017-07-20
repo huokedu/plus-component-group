@@ -15,9 +15,9 @@ class TableGroupTotalCount extends Migration
     {
         Schema::create('groups_count', function(Blueprint $table) {
             $table->increments('id')->comment('primary key');
-            $table->integer('group_id')->unsigned()->comment('which group');
-            $table->integer('posts_count')->unsigned()->default(0)->comment('all posts');
-            $table->integer('members_count')->unsigned()->default(0)->comment('all member');
+            $table->unsignedInteger('group_id')->comment('which group');
+            $table->unsignedInteger('posts_count')->default(0)->comment('all posts');
+            $table->unsignedInteger('members_count')->default(0)->comment('all member');
             $table->timestamps();
         });
     }

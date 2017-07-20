@@ -15,8 +15,8 @@ class TableGroupMembers extends Migration
     {
         Schema::create('group_members', function(Blueprint $table) {
             $table->increments('id')->comment('primary key');
-            $table->integer('user_id')->index()->unsigned()->comment('member_user_id');
-            $table->integer('group_id')->index()->unsigned()->comment('group_id of member');
+            $table->unsignedInteger('user_id')->index()->comment('member_user_id');
+            $table->unsignedInteger('group_id')->index()->comment('group_id of member');
             $table->unique(['user_id', 'group_id']); // 唯一聚合索引
             $table->tinyInteger('is_audit')->unsigned()->default(1)->comment('if user is audited');
             $table->timestamps();

@@ -12,6 +12,7 @@ POST /groups
 | avatar | Integer | 必填, 圈子图标 |
 | intro | String | 必填, 圈子简介, max: 100 |
 | cover | Integer | 必填, 圈子背景图 |
+| groupmark | BigInteger | 必填 |
 
 
 #### Response
@@ -24,6 +25,7 @@ Status: 201 OK
     "message": [
         "提交成功,请等待管理员审核"
     ],
-    "id": 3
+    "id": 3,
+    "group_mark": 1500000000100
 }
 ```

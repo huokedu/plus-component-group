@@ -64,6 +64,7 @@ class GroupPostCommentController extends Controller
 		$comment->post_id = $post->id;
 		$comment->user_id = $user;
 		$comment->content = $request->input('content');
+		$comment->group_post_comment_mark = $request->input('group_post_comment_mark');
 		$comment->reply_to_user_id = $request->input('reply_to_user_id') ?? 0;
 		$comment->to_user_id = $post->user_id;
 		
@@ -80,7 +81,8 @@ class GroupPostCommentController extends Controller
 				'id' => $comment->id,
 				'created_at' => $comment->created_at->timestamp,
 				'user_id' => $comment->user_id,
-				'reply_to_user_id' => $comment->reply_to_user_id
+				'reply_to_user_id' => $comment->reply_to_user_id,
+				'group_post_comment_mark' => $comment->group_post_comment_mark
 			])->setStatusCode(201);
 	}
 

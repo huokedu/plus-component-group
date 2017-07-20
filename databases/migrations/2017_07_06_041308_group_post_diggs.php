@@ -15,8 +15,8 @@ class GroupPostDiggs extends Migration
     {
         Schema::create('group_post_diggs', function(Blueprint $table) {
             $table->increments('id')->comment('primary key');
-            $table->integer('post_id')->index()->unsigned()->comment('for post_id');
-            $table->integer('user_id')->index()->unsigned()->comment('who digged this post');
+            $table->unsignedInteger('post_id')->index()->comment('for post_id');
+            $table->unsignedInteger('user_id')->index()->comment('who digged this post');
             $table->timestamps();
             $table->index(['post_id', 'user_id']);
         });
