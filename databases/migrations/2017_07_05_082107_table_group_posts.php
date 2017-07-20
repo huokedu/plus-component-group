@@ -16,7 +16,7 @@ class TableGroupPosts extends Migration
         Schema::create('group_posts', function (Blueprint $table) {
             $table->increments('id')->comment('primary key');
             $table->string('title')->index()->comment('title of post');
-            $table->text('content')->comment('content of post');
+            $table->text('content')->nullable()->comment('content of post');
             $table->integer('group_id')->index()->unsigned()->comment('belongsto which group');
             $table->integer('views')->unsigned()->default(1)->comment('views of post');
             $table->integer('diggs')->unsigned()->default(0)->comment('diggs number of post');
