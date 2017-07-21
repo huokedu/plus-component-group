@@ -75,14 +75,14 @@ class Group extends Model
 	public function avatar() {
 		return $this->hasOne(FileWith::class, 'raw', 'id')
             ->where('channel', 'group:avatar')
-            ->select(['raw', 'size', 'file_id']);
+            ->select(['raw', 'size', 'id']);
 	}
 
 	public function cover()
 	{
 		return $this->hasOne(FileWith::class, 'raw', 'id')
 			->where('channel', 'group:cover')
-			->select(['raw', 'size', 'file_id']);
+			->select(['raw', 'size', 'id']);
 	}
 
 	// public function datas() {

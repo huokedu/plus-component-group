@@ -63,7 +63,7 @@ class GroupPost extends Model
 	public function images() {
 		return $this->hasMany(FileWith::class, 'raw', 'id')
 			->where('channel', 'post:image')
-			->select('raw', 'size', 'file_id');
+			->select('raw', 'size', 'id');
 	}
 
 	/**
