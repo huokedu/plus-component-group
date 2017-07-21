@@ -54,7 +54,7 @@ Route::prefix('/groups')->group(function () {
     	Route::post('/{group}/posts', 'GroupPostController@store')
     		->where('group', '[0-9]+');
 
-        Route::delete('/{group}/posts/{post}', 'GroupPostController@store')
+        Route::delete('/{group}/posts/{post}', 'GroupPostController@destory')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 
