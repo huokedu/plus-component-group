@@ -20,15 +20,18 @@ class StoreGroupPostComment extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'content' => 'bail|required|display_length:255'
+			'body' => 'bail|required|display_length:255',
+			'reply_user' => 'nullable|integer|exists:users,id',
 		];
 	}
 
 	public function messages(): array
 	{
 		return [
-			'content.required' => '没有发送任何内容',
-			'content.display_length' => '评论超出最大限制'
+			'body.required' => '没有发送任何内容',
+			'body.display_length' => '评论超出最大限制',
+			'reply_user.integer' => '回复用户不合法',
+			'reply_user.exists' => '回复用户不存在',
 		];
 	}
 }

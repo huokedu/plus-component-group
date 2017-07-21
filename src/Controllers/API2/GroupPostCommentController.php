@@ -5,18 +5,64 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\API2;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Zhiyi\Plus\Http\Controllers\Controller;
+use Zhiyi\Plus\Models\Comment as CommentModel;
 use Zhiyi\Plus\Models\FileWith as FileWithModel;
-use Illuminate\Contracts\Routing\ResponseFactory as ResponseContract;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\Group as GroupModel;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPostComment as GroupPostCommentModel;
+use Illuminate\Contracts\Routing\ResponseFactory as ResponseFactoryContract;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPost as GroupPostModel;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\FormRequest\API2\StoreGroupPostComment as StorePostCommentRequest;
 
 class GroupPostCommentController extends Controller
 {
-	public function store(Request $request, GroupModel $group, GroupPostModel $post)
+	/**
+	 * Send a posts comment.
+	 *
+	 * @param \Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\FormRequest\API2\StoreGroupPostComment $request
+	 * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+	 * @param \Zhiyi\Plus\Models\Comment $group
+	 * @param \Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPost $post
+	 * @return mixed
+	 * @author Seven Du <shiweidu@outlook.com>
+	 */
+	public function store(StorePostCommentRequest $request,
+						  ResponseFactoryContract $response,
+						  CommentModel $comment
+						  GroupModel $group,
+						  GroupPostModel $post)
 	{
-		// todo.
+		$user = $request->user();
+		$body = $request->input('body');
+		$replyUser = intval($request->input('reply_user', 0));
+
+		$comment->user_id = $user->id;
+		$comment->target_user = $post->user_id;
+		$comment->reply_user = $replyUser;
+
+		$post->getConnection()->transaction(function () use ($post, $user, $comment) {
+            $post->comments()->save($comment);
+            $post->increment('comments_count', 1);
+            $user->extra()->firstOrCreate([])->increment('comments_count', 1);
+        });
+
+        $message = sprintf('%s 评论了你的帖子', $user->name);
+        $feed->user->sendNotifyMessage('group:comment', $message, [
+            'post' => $post,
+            'user' => $user,
+        ]);
+
+        if ($replyUser) {
+            $replyUser = $user->newQuery()->where('id', $replyUser)->first();
+            $message = sprintf('%s 回复了您的帖子评论', $user->name);
+            $replyUser->sendNotifyMessage('group:comment-reply', $message, [
+                'post' => $post,
+                'user' => $user,
+            ]);
+        }
+
+        return $response->json([
+            'message' => ['操作成功'],
+            'comment' => $comment,
+        ])->setStatusCode(201);
 	}
 
 	public function comments(Request $request, GroupModel $group, GroupPostModel $post)

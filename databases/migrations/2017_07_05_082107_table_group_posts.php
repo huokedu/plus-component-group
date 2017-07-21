@@ -21,7 +21,7 @@ class TableGroupPosts extends Migration
             $table->unsignedInteger('views')->default(1)->comment('views of post');
             $table->unsignedInteger('diggs')->default(0)->comment('diggs number of post');
             $table->unsignedInteger('collections')->default(0)->comment('collections number of post');
-            $table->unsignedInteger('comments')->default(0)->comment('comments number of post');
+            $table->unsignedInteger('comments_count')->default(0)->comment('comments number of post');
             $table->unsignedInteger('user_id')->index()->comment('who add the post');
             $table->tinyInteger('is_audit')->default(1)->comment('1 audited, 0 unaudited');
             $table->unsignedBigInteger('group_post_mark')->comment('group_post_mark for group_post created');
