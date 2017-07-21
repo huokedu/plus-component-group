@@ -12,6 +12,5 @@
                 "Zhiyi\\Component\\ZhiyiPlus\\PlusComponentGroup\\GroupServiceProvider"
             ]
         }
-    },
-    "version": "0.0.1"
+    }
 }
