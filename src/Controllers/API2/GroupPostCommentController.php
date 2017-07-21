@@ -26,10 +26,14 @@ class GroupPostCommentController extends Controller
 	 */
 	public function store(StorePostCommentRequest $request,
 						  ResponseFactoryContract $response,
-						  CommentModel $comment
+						  CommentModel $comment,
 						  GroupModel $group,
 						  GroupPostModel $post)
 	{
+		if (! $group->is_audit || ! $post->is_audit) {
+			return $response->json(['message' => ['非法请求']], 403);
+		}
+
 		$user = $request->user();
 		$body = $request->input('body');
 		$replyUser = intval($request->input('reply_user', 0));
@@ -37,6 +41,7 @@ class GroupPostCommentController extends Controller
 		$comment->user_id = $user->id;
 		$comment->target_user = $post->user_id;
 		$comment->reply_user = $replyUser;
+		$comment->body = $body;
 
 		$post->getConnection()->transaction(function () use ($post, $user, $comment) {
             $post->comments()->save($comment);
@@ -44,13 +49,15 @@ class GroupPostCommentController extends Controller
             $user->extra()->firstOrCreate([])->increment('comments_count', 1);
         });
 
-        $message = sprintf('%s 评论了你的帖子', $user->name);
-        $feed->user->sendNotifyMessage('group:comment', $message, [
-            'post' => $post,
-            'user' => $user,
-        ]);
+		if ($post->user_id !== $user->id) {
+			$message = sprintf('%s 评论了你的帖子', $user->name);
+	        $post->user->sendNotifyMessage('group:comment', $message, [
+	            'post' => $post,
+	            'user' => $user,
+	        ]);
+		}
 
-        if ($replyUser) {
+        if ($replyUser && $replyUser !== $user->id) {
             $replyUser = $user->newQuery()->where('id', $replyUser)->first();
             $message = sprintf('%s 回复了您的帖子评论', $user->name);
             $replyUser->sendNotifyMessage('group:comment-reply', $message, [
