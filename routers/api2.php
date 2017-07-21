@@ -23,11 +23,6 @@ Route::prefix('/groups')->group(function () {
 	// 圈子成员
 	Route::get('/{group}/members', 'GroupMemberController@members')
 		->where('group', '[0-9]+');
-
-    // 动态评论
-    // Route::get('/{group}/posts/{post}/comments', 'GroupPostCommentController@comments')
-    //     ->where('group', '[0-9]+')
-    //     ->where('post', '[0-9]+');
         
     // Get all comments.
     Route::get('/{group}/posts/{post}/comments', 'GroupPostCommentController@index');
@@ -61,11 +56,8 @@ Route::prefix('/groups')->group(function () {
         // Send a posts comment.
         Route::post('/{group}/posts/{post}/comments', 'GroupPostCommentController@store');
 
-        // // 删除评论
-        // Route::delete('/{group}/posts/{post}/comments/{comment}', 'GroupPostCommentController@destory')
-        //     ->where('group', '[0-9]+')
-        //     ->where('post', '[0-9]+')
-        //     ->where('comment', '[0-9]+');
+        // 删除评论
+        Route::delete('/{group}/posts/{post}/comments/{comment}', 'GroupPostCommentController@destory');
 
         // 点赞动态
         Route::post('/{group}/posts/{post}/digg', 'GroupPostDiggController@store')
