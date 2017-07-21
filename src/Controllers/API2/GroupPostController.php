@@ -34,9 +34,11 @@ class GroupPostController extends Controller
 			->get();
 
 		$posts->map( function ($post) use ($user) {
-			$post->commentslist = $post->hascomments()->orderBy('id', 'desc')
-				->limit(5)
-				->get();
+			$post->load(['comments' => function ($query) {
+				$query->orderBy('id', 'desc')
+					->limit(5);
+			}]);
+			
 			$post->is_collection = GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
 			$post->is_digg = GroupPostDiggModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
 			return $post;
