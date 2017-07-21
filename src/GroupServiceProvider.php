@@ -6,9 +6,9 @@ use Zhiyi\Plus\Support\PackageHandler;
 use Illuminate\Support\ServiceProvider;
 use Zhiyi\Plus\Support\ManageRepository;
 use Zhiyi\Plus\Models\Comment;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\GroupPackageHandler;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\Group;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPostComment;
 
 class GroupServiceProvider extends ServiceProvider
 {
@@ -40,6 +40,10 @@ class GroupServiceProvider extends ServiceProvider
             ->loadManageFrom('圈子', 'group:admin', [
             'icon' => 'G',
             'route' => true
+        ]);
+
+        Relation::morphMap([
+            'group-posts' => Models\GroupPost::class,
         ]);
     }
 

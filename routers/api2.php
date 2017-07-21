@@ -25,9 +25,9 @@ Route::prefix('/groups')->group(function () {
 		->where('group', '[0-9]+');
 
     // 动态评论
-    Route::get('/{group}/posts/{post}/comments', 'GroupPostCommentController@comments')
-        ->where('group', '[0-9]+')
-        ->where('post', '[0-9]+');
+    // Route::get('/{group}/posts/{post}/comments', 'GroupPostCommentController@comments')
+    //     ->where('group', '[0-9]+')
+    //     ->where('post', '[0-9]+');
     // 动态点赞用户
     Route::get('/{group}/posts/{post}/diggs', 'GroupPostDiggController@diggs')
         ->where('group', '[0-9]+')
@@ -54,16 +54,19 @@ Route::prefix('/groups')->group(function () {
     	Route::post('/{group}/posts', 'GroupPostController@store')
     		->where('group', '[0-9]+');
 
-        // 创建帖子评论
-        Route::post('/{group}/posts/{post}/comment', 'GroupPostCommentController@store')
-            ->where('group', '[0-9]+')
-            ->where('post', '[0-9]+');
+        // Send a posts comment.
+        Route::post('/{group}/posts/{post}/comments', 'GroupPostCommentController@store');
 
-        // 删除评论
-        Route::delete('/{group}/posts/{post}/comments/{comment}', 'GroupPostCommentController@destory')
-            ->where('group', '[0-9]+')
-            ->where('post', '[0-9]+')
-            ->where('comment', '[0-9]+');
+        // // 创建帖子评论
+        // Route::post('/{group}/posts/{post}/comment', 'GroupPostCommentController@store')
+        //     ->where('group', '[0-9]+')
+        //     ->where('post', '[0-9]+');
+
+        // // 删除评论
+        // Route::delete('/{group}/posts/{post}/comments/{comment}', 'GroupPostCommentController@destory')
+        //     ->where('group', '[0-9]+')
+        //     ->where('post', '[0-9]+')
+        //     ->where('comment', '[0-9]+');
 
         // 点赞动态
         Route::post('/{group}/posts/{post}/digg', 'GroupPostDiggController@store')

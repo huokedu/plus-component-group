@@ -3,6 +3,7 @@
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models;
 
 use Zhiyi\Plus\Models\User;
+use Zhiyi\Plus\Models\Comment;
 use Zhiyi\Plus\Models\FileWith;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -36,11 +37,14 @@ class GroupPost extends Model
 	}
 
 	/**
-	 * 动态的评论
-	 * @return [type] [description]
-	 */
-	public function hascomments() {
-		return $this->hasMany(GroupPostComment::class, 'post_id');
+     * Has comments.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @author Seven Du <shiweidu@outlook.com>
+     */
+	public function comments()
+	{
+		return $this->morphMany(Comment::class, 'commentable');
 	}
 
 	public function collections() {

@@ -14,6 +14,11 @@ use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\FormRequest\API2\StoreGroupPost
 
 class GroupPostCommentController extends Controller
 {
+	public function store(Request $request, GroupModel $group, GroupPostModel $post)
+	{
+		// todo.
+	}
+
 	public function comments(Request $request, GroupModel $group, GroupPostModel $post)
 	{
 		if(!$group->is_audit) {
@@ -48,43 +53,43 @@ class GroupPostCommentController extends Controller
 	 * @param  GroupPostModel $post    
 	 * @return response
 	 */
-	public function store(StorePostCommentRequest $request, GroupModel $group, GroupPostModel $post)
-	{
-		if(!$group->is_audit) {
-			abort(404, '圈子不存在或未通过审核');
-		}
+	// public function store(StorePostCommentRequest $request, GroupModel $group, GroupPostModel $post)
+	// {
+	// 	if(!$group->is_audit) {
+	// 		abort(404, '圈子不存在或未通过审核');
+	// 	}
 
-		if(!$post->is_audit) {
-			abort(404, '动态不存在或未通过审核');
-		}
+	// 	if(!$post->is_audit) {
+	// 		abort(404, '动态不存在或未通过审核');
+	// 	}
 
-		$user = $request->user('api')->id;
+	// 	$user = $request->user('api')->id;
 
-		$comment = new GroupPostCommentModel();
-		$comment->post_id = $post->id;
-		$comment->user_id = $user;
-		$comment->content = $request->input('content');
-		$comment->group_post_comment_mark = $request->input('group_post_comment_mark');
-		$comment->reply_to_user_id = $request->input('reply_to_user_id') ?? 0;
-		$comment->to_user_id = $post->user_id;
+	// 	$comment = new GroupPostCommentModel();
+	// 	$comment->post_id = $post->id;
+	// 	$comment->user_id = $user;
+	// 	$comment->content = $request->input('content');
+	// 	$comment->group_post_comment_mark = $request->input('group_post_comment_mark');
+	// 	$comment->reply_to_user_id = $request->input('reply_to_user_id') ?? 0;
+	// 	$comment->to_user_id = $post->user_id;
 		
-		try {
-			$comment->getConnection()->transaction( function () use ($comment, $post) {
-				$comment->save();
-				$post->increment('comments');
-			});	
-		} catch (\Exception $e) {
-			throw $e;
-		}
+	// 	try {
+	// 		$comment->getConnection()->transaction( function () use ($comment, $post) {
+	// 			$comment->save();
+	// 			$post->increment('comments');
+	// 		});	
+	// 	} catch (\Exception $e) {
+	// 		throw $e;
+	// 	}
 
-		return response()->json([
-				'id' => $comment->id,
-				'created_at' => $comment->created_at->timestamp,
-				'user_id' => $comment->user_id,
-				'reply_to_user_id' => $comment->reply_to_user_id,
-				'group_post_comment_mark' => $comment->group_post_comment_mark
-			])->setStatusCode(201);
-	}
+	// 	return response()->json([
+	// 			'id' => $comment->id,
+	// 			'created_at' => $comment->created_at->timestamp,
+	// 			'user_id' => $comment->user_id,
+	// 			'reply_to_user_id' => $comment->reply_to_user_id,
+	// 			'group_post_comment_mark' => $comment->group_post_comment_mark
+	// 		])->setStatusCode(201);
+	// }
 
 	/**
 	 * delete comment of post

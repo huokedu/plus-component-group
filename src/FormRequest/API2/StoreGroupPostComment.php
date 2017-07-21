@@ -14,14 +14,13 @@ class StoreGroupPostComment extends FormRequest
 	 */
 	public function authorize(): bool
 	{
-		// TODO
-		return true;
+		return $this->user() ? true : false;
 	}
 
 	public function rules(): array
 	{
 		return [
-			'content' => 'bail|required|max:255'
+			'content' => 'bail|required|display_length:255'
 		];
 	}
 
@@ -29,7 +28,7 @@ class StoreGroupPostComment extends FormRequest
 	{
 		return [
 			'content.required' => '没有发送任何内容',
-			'content.max' => '评论长度最大为255'
+			'content.display_length' => '评论超出最大限制'
 		];
 	}
 }
