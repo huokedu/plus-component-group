@@ -79,12 +79,12 @@ Status: 200 OK
             {
                 "raw": "2",
                 "size": "1200x800",
-                "file_id": 3
+                "id": 3
             },
             {
                 "raw": "2",
                 "size": "600x1065",
-                "file_id": 4
+                "id": 4
             }
         ]
     },

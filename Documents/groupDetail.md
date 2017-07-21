@@ -23,12 +23,12 @@ Status: 200 OK
         "avatar": {
             "raw": "1",
             "size": "1920x1080",
-            "file_id": 1
+            "id": 1
         },
         "cover": {
             "raw": "1",
             "size": "600x600",
-            "file_id": 2
+            "id": 2
         },
         "members": [
             {
