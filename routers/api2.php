@@ -28,6 +28,10 @@ Route::prefix('/groups')->group(function () {
     // Route::get('/{group}/posts/{post}/comments', 'GroupPostCommentController@comments')
     //     ->where('group', '[0-9]+')
     //     ->where('post', '[0-9]+');
+        
+    // Get all comments.
+    Route::get('/{group}/posts/{post}/comments', 'GroupPostCommentController@index');
+
     // 动态点赞用户
     Route::get('/{group}/posts/{post}/diggs', 'GroupPostDiggController@diggs')
         ->where('group', '[0-9]+')
@@ -56,11 +60,6 @@ Route::prefix('/groups')->group(function () {
 
         // Send a posts comment.
         Route::post('/{group}/posts/{post}/comments', 'GroupPostCommentController@store');
-
-        // // 创建帖子评论
-        // Route::post('/{group}/posts/{post}/comment', 'GroupPostCommentController@store')
-        //     ->where('group', '[0-9]+')
-        //     ->where('post', '[0-9]+');
 
         // // 删除评论
         // Route::delete('/{group}/posts/{post}/comments/{comment}', 'GroupPostCommentController@destory')

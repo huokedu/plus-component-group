@@ -15,6 +15,39 @@ use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\FormRequest\API2\StoreGroupPost
 class GroupPostCommentController extends Controller
 {
 	/**
+	 * List all comments.
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 * @param \Illuminate\Contracts\Routing\ResponseFactory $response
+	 * @param \Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\Group $group
+	 * @param \Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPost $post
+	 * @return mixed
+	 * @author Seven Du <shiweidu@outlook.com>
+	 */
+	public function index(Request $request,
+						  ResponseFactoryContract $response,
+						  GroupModel $group,
+						  GroupPostModel $post)
+	{
+		if (! $group->is_audit || ! $post->is_audit) {
+			return $response->json(['message' => ['非法请求']], 403);
+		}
+
+		$limit = $request->query('limit', 20);
+		$after = $request->query('after', false);
+
+		$comments = $post->comments()
+			->when($after, function ($query) use ($after) {
+				return $query->where('id', '<', $after);
+			})
+			->orderBy('id', 'desc')
+			->limit($limit)
+			->get();
+
+		return $response->json($comments, 200);
+	}
+
+	/**
 	 * Send a posts comment.
 	 *
 	 * @param \Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\FormRequest\API2\StoreGroupPostComment $request
