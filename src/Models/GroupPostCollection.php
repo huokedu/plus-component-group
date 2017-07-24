@@ -21,13 +21,17 @@ class GroupPostCollection extends Model
 		'user_id'
 	];
 
+	protected $with = [
+		'post'
+	];
+
 	/**
 	 * 属于动态
 	 * @return [type] [description]
 	 */
 	public function post()
 	{
-		return $this->belongsTo(GroupPost::class, 'group_id');
+		return $this->hasOne(GroupPost::class, 'id', 'post_id');
 	}
 
 	/**
