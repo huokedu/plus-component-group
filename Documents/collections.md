@@ -1,4 +1,4 @@
-# 圈子动态列表
+# 我收藏的圈子动态列表
 
 ```
 GET /groups/posts/collections
@@ -19,21 +19,16 @@ GET /groups/posts/collections
 Status: 200 OK
 ```
 ```json5
-{
-    "message": [
-        "获取成功"
-    ],
-    "data": [
-        {
-            "id": 3,
-            "post_id": 11,
-            "updated_at": "2017-07-14 10:25:15"
-        },
-        {
-            "id": 1,
-            "post_id": 10,
-            "updated_at": "2017-07-14 07:23:23"
-        }
-    ]
-}
+ [
+    {
+        "id": 3,
+        "post_id": 11,
+        "updated_at": "2017-07-14 10:25:15"
+    },
+    {
+        "id": 1,
+        "post_id": 10,
+        "updated_at": "2017-07-14 07:23:23"
+    }
+]
 ```
