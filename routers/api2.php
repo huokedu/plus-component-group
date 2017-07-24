@@ -53,8 +53,14 @@ Route::prefix('/groups')->group(function () {
     	Route::post('/{group}/posts', 'GroupPostController@store')
     		->where('group', '[0-9]+');
 
-        // Send a posts comment.
-        Route::post('/{group}/posts/{post}/comments', 'GroupPostCommentController@store');
+        Route::delete('/{group}/posts/{post}', 'GroupPostController@destory')
+            ->where('group', '[0-9]+')
+            ->where('post', '[0-9]+');
+
+        // 创建帖子评论
+        Route::post('/{group}/posts/{post}/comment', 'GroupPostCommentController@store')
+            ->where('group', '[0-9]+')
+            ->where('post', '[0-9]+');
 
         // 删除评论
         Route::delete('/{group}/posts/{post}/comments/{comment}', 'GroupPostCommentController@destory');
