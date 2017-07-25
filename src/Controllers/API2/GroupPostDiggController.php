@@ -29,11 +29,8 @@ class GroupPostDiggController extends Controller
 		$limit = $request->query('limit', 15);
 		$after = $request->query('after');
 
-		$diggs = $post->diggs()
-			->where(function ($query) use ($after) {
-				if(! $after) {
-					return;
-				}
+		$diggs = $post->likes()
+			->when($after, function ($query) use ($after) {
 				$query->where('id', '<', $after);
 			})
 			->limit($limit)
@@ -60,45 +57,20 @@ class GroupPostDiggController extends Controller
 			abort(404, '动态不存在或未通过审核');
 		}
 
-		$user = $request->user('api')->id;
+		$user = $request->user();
 
-        if ($post->diggs()->where('user_id', $user)->first()) {
+        if ($post->likes()->where('user_id', $user->id)->first()) {
            abort(422, '已赞过该动态');
         }
 
-        DB::beginTransaction();
-
-        try {
-            $digg = $post->diggs()->create(['user_id' => $user]);
-
-            $post->increment('diggs'); //增加点赞数量
-
-            Digg::create([
-            	'component' => 'group',
-                'digg_table' => 'group_post_diggs',
-                'digg_id' => $digg->id,
-                'source_table' => 'group_posts',
-                'source_id' => $post->id,
-                'source_content' => $post->title,
-                'source_cover' => 0,
-                'user_id' => $user,
-                'to_user_id' => $post->user_id,
-            ]); // 统计到点赞总表
-
-            DB::commit();
-        } catch (QueryException $e) {
-            DB::rollBack();
-
-            return response()->json([
-                'message' => [$e->errorInfo],
-            ])->setStatusCode(500);
-        }
-
-        $extras = ['action' => 'digg'];
-        $alert = '有人赞了你的动态，去看看吧';
-        $alias = $post->user_id;
-
-        dispatch(new PushMessage($alert, (string) $alias, $extras));
+        $post->getConnection()->transaction( function() use ($post, $user) {
+        	$post->likes()->create([
+        		'user_id' => $user->id,
+        		'target_user' => $post->user_id
+        	]);
+        	$post->increment('diggs');
+        	$post->user->extra()->firstOrCreate([])->increment('likes_count', 1);
+        });
 
         abort(201, '点赞成功');
 	}
@@ -113,19 +85,17 @@ class GroupPostDiggController extends Controller
 			abort(404, '动态不存在或未通过审核');
 		}
 
-		$user = $request->user('api')->id;
-        $digg = $post->diggs()->where('user_id', $user)->first();
+		$user = $request->user('api');
+
+        $digg = $post->likes()->where('user_id', $user->id)->first();
         if (! $digg) {
-            return response()->json([
-                'message' => ['未对该动态点赞'],
-            ])->setStatusCode(422);
+            abort(422, '未对该动态点赞');
         }
 
-        DB::transaction(function () use ($digg, $post, $user) {
+        $post->getConnection()->transaction(function () use ($digg, $post, $user) {
             $digg->delete();
             $post->decrement('diggs'); //减少点赞数量
-
-            Digg::where(['component' => 'group', 'digg_id' => $digg->id])->delete(); // 统计到点赞总表
+            $post->user->extra()->decrement('likes_count');
         });
 
         abort(204);

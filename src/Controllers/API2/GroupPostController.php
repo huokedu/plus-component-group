@@ -15,18 +15,21 @@ use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\FormRequest\API2\StorePost as S
 
 class GroupPostController extends Controller
 {
+	/**
+	 *  posts of a group
+	 *  @author Wayne < qiaobinloverabbi@gmail.com >
+	 *  @param  Request    $request [description]
+	 *  @param  GroupModel $group   [description]
+	 *  @return [type]
+	 */
 	public function posts(Request $request, GroupModel $group)
 	{
-
 		$limit = $request->query('limit', 15);
 		$after = $request->query('after');
-		$user = $request->user('api')->id ?? 0;
-		
+		$user = $request->user('api');
+
 		$posts = $group->posts()
-			->where(function ($query) use ($after) {
-				if(!$after) {
-					return;
-				}
+			->when($after, function ($query) use ($after) {
 				$query->where('id', '<', $after);
 			})
 			->limit($limit)
@@ -39,8 +42,8 @@ class GroupPostController extends Controller
 					->limit(5);
 			}]);
 			
-			$post->is_collection = GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
-			$post->is_digg = GroupPostDiggModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
+			$post->has_collection = $user ? GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user->id])->first() !== null : false;
+			$post->has_like = $post->liked($user);
 			return $post;
 		});
 
@@ -63,12 +66,12 @@ class GroupPostController extends Controller
 		if(!$post->is_audit) {
 			abort(404, '动态不存在或未通过审核');
 		}
-
-		$user = $request->user('api')->id ?? 0;
+		$user = $request->user('api');
+		$user_id = $user->id ?? 0;
 		$post->increment('views');
 
-		$post->is_collection = GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
-		$post->is_digg = GroupPostDiggModel::where(['post_id' => $post->id, 'user_id' => $user])->count();
+		$post->has_collection = $user_id ? GroupPostCollectionModel::where(['post_id' => $post->id, 'user_id' => $user_id])->count() !== 0 : false;
+		$post->has_like = $post->liked($user);
 
 		return response()->json($post)->setStatusCode(200);
 	}

@@ -4,12 +4,15 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models;
 
 use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\Comment;
+use Zhiyi\Plus\Models\Like;
 use Zhiyi\Plus\Models\FileWith;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class GroupPost extends Model
-{
+{	
+	use Relations\PostHasLike;
+
 	protected $table = 'group_posts';
 
 	protected $hidden = [
@@ -51,14 +54,13 @@ class GroupPost extends Model
 		return $this->hasMany(GroupPostCollection::class, 'post_id');
 	}
 
-	/**
-	 * 动态的点赞
-	 * @return [type] [description]
-	 */
-	public function diggs() {
-		return $this->hasMany(GroupPostDigg::class, 'post_id')
-			->select('id', 'post_id', 'user_id');
-	}
+	// /**
+	//  * 动态的点赞
+	//  * @return [type] [description]
+	//  */
+	// public function likes() {
+	// 	return $this->morphMany(Like::class, 'likeable');
+	// }
 
 	/**
 	 * 动态的图片

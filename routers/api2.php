@@ -28,7 +28,7 @@ Route::prefix('/groups')->group(function () {
     Route::get('/{group}/posts/{post}/comments', 'GroupPostCommentController@index');
 
     // 动态点赞用户
-    Route::get('/{group}/posts/{post}/diggs', 'GroupPostDiggController@diggs')
+    Route::get('/{group}/posts/{post}/likes', 'GroupPostDiggController@diggs')
         ->where('group', '[0-9]+')
         ->where('post', '[0-9]+');
 	/*
@@ -60,12 +60,12 @@ Route::prefix('/groups')->group(function () {
         Route::delete('/{group}/posts/{post}/comments/{comment}', 'GroupPostCommentController@destory');
 
         // 点赞动态
-        Route::post('/{group}/posts/{post}/digg', 'GroupPostDiggController@store')
+        Route::post('/{group}/posts/{post}/like', 'GroupPostDiggController@store')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 
         // 取赞动态
-        Route::delete('/{group}/posts/{post}/digg', 'GroupPostDiggController@destory')
+        Route::delete('/{group}/posts/{post}/like', 'GroupPostDiggController@destory')
             ->where('group', '[0-9]+')
             ->where('post', '[0-9]+');
 
