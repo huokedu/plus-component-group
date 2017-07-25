@@ -1,7 +1,7 @@
 # 圈子动态点赞列表
 
 ```
-GET /groups/{group}/posts/{post}/diggs
+GET /groups/{group}/posts/{post}/likes
 ```
 
 ### Parameters
