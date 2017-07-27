@@ -102,6 +102,7 @@ class GroupPostCommentController extends Controller
         return $response->json([
             'message' => ['操作成功'],
             'comment' => $comment,
+            'group_post_comment_mark' => $request->input('group_post_comment_mark')
         ])->setStatusCode(201);
 	}
 
