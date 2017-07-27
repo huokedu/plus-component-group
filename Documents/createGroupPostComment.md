@@ -1,7 +1,7 @@
 # 创建圈子动态评论
 
 ```
-POST /groups/{group}/posts/{post}/comment
+POST /groups/{group}/posts/{post}/comments
 ```
 
 ### Parameters

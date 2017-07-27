@@ -54,13 +54,13 @@ class GroupPost extends Model
 		return $this->hasMany(GroupPostCollection::class, 'post_id');
 	}
 
-	// /**
-	//  * 动态的点赞
-	//  * @return [type] [description]
-	//  */
-	// public function likes() {
-	// 	return $this->morphMany(Like::class, 'likeable');
-	// }
+	/**
+	 * 动态的点赞
+	 * @return [type] [description]
+	 */
+	public function likes() {
+		return $this->morphMany(Like::class, 'likeable');
+	}
 
 	/**
 	 * 动态的图片
