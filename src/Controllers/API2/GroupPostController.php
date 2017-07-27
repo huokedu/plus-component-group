@@ -111,7 +111,7 @@ class GroupPostController extends Controller
 		return response()->json(['message' => '创建成功', 'id' => $post->id, 'group_post_mark' => $post->group_post_mark ])->setStatusCode(201);
 	}
 
-	public function destory(Request $request, GroupModel $group, GroupPostModel $post)
+	public function destroy(Request $request, GroupModel $group, GroupPostModel $post)
 	{
 		if(!$group->is_audit) {
 			abort(404, '圈子不存在或未通过审核');
@@ -120,7 +120,7 @@ class GroupPostController extends Controller
 		$user = $request->user('api')->id;
 
 		if($post->user_id !== $user) {
-			abort(401);
+			abort(422, '没有删除权限');
 		}
 		// 假删除
 		try {

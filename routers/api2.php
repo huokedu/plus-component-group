@@ -53,6 +53,9 @@ Route::prefix('/groups')->group(function () {
     	Route::post('/{group}/posts', 'GroupPostController@store')
     		->where('group', '[0-9]+');
 
+        // 删除圈子动态
+        Route::delete('/{group}/posts/{post}', 'GroupPostController@destroy');
+
         // Send a posts comment.
         Route::post('/{group}/posts/{post}/comments', 'GroupPostCommentController@store');
 
