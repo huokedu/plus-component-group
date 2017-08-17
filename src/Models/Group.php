@@ -103,4 +103,15 @@ class Group extends Model
 		return $query->where('title', 'like', "%{$keyword}%")
 			->orWhere('intro', 'like', "%{$keyword}%");
 	}
+
+    /**
+     * 根据审核状态查询
+     * @param Builder $builder
+     * @param int $audit
+     * @return mixed
+     */
+    public function scopeByAudit(Builder $builder, int $audit): Builder
+    {
+        return $builder->where('is_audit', $audit);
+    }
 }

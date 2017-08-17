@@ -32,9 +32,8 @@ class RouterRegister
      */
     public function all()
     {
-        // $this->forAdmin();
-        // $this->forApi1();
         $this->forApi2();
+        $this->forAdmin();
     }
 
     /**
@@ -50,5 +49,14 @@ class RouterRegister
             'prefix' => '/api/v2',
             'namespace' => 'Zhiyi\\Component\\ZhiyiPlus\\PlusComponentGroup\\API2',
         ], dirname(__DIR__).'/routers/api2.php');
+    }
+
+    public function forAdmin()
+    {
+        $this->router->group([
+            'middleware' => ['web', 'auth', 'admin'],
+            'prefix' => '/group/admin',
+            'namespace' => 'Zhiyi\\Component\\ZhiyiPlus\\PlusComponentGroup\\AdminControllers',
+        ], dirname(__DIR__).'/routers/admin.php');
     }
 }
