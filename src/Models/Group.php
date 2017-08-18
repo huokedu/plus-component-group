@@ -30,7 +30,7 @@ class Group extends Model
 		'avatar',
 		'cover',
 		'members',
-		'managers'
+		'managers.user'
 	];
 
 	// /**
