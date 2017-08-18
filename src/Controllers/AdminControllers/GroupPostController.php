@@ -24,6 +24,9 @@ class GroupPostController extends Controller
         $limit = (int) $request->get('limit', 20);
 
         $posts = GroupPost::with(['group', 'user'])
+        ->whereHas('group', function ($query) {
+            $query->whereNull('deleted_at');
+        })
         ->when(!is_null($audit), function ($query) use ($audit) {
             $query->byAudit($audit);
         })
