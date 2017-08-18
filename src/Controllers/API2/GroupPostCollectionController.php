@@ -62,7 +62,7 @@ class GroupPostCollectionController extends Controller
 
        	$post->collections()->create(['user_id' => $user]);
 
-        abort(201, '收藏成功');
+        return response()->json(['message' => '收藏成功'])->setStatusCode(201);
 	}
 
 	public function destory(Request $request, GroupModel $group, GroupPostModel $post)

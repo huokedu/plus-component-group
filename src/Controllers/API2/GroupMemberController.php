@@ -80,7 +80,7 @@ class GroupMemberController extends Controller
 			throw $e;
 			// abort(400);
 		}
-		abort(201, '加入成功');
+		return response()->json(['message' => '加入成功'])->setStatusCode(201);
 	}
 
 	/**
@@ -114,6 +114,6 @@ class GroupMemberController extends Controller
 			throw $e;
 		}
 
-		abort(204);
+		return response()->json()->setStatusCode(204);
 	}
 }

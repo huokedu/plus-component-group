@@ -132,7 +132,7 @@ class GroupPostController extends Controller
 			throw $e;
 		}
 
-		abort(204);
+		return response()->json()->setStatusCode(204);
 	}
 
 	/**

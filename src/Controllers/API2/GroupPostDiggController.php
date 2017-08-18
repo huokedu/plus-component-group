@@ -33,10 +33,11 @@ class GroupPostDiggController extends Controller
 			->when($after, function ($query) use ($after) {
 				$query->where('id', '<', $after);
 			})
+			->with(['user'])
 			->limit($limit)
 			->orderBy('id', 'desc')
 			->get();
-
+		
 		return response()->json($diggs)->setStatusCode(200);
 	}
 
@@ -72,7 +73,7 @@ class GroupPostDiggController extends Controller
         	$post->user->extra()->firstOrCreate([])->increment('likes_count', 1);
         });
 
-        abort(201, '点赞成功');
+        return response()->json(['message' => '点赞成功'])->setStatusCode(201);
 	}
 
 	public function destory(Request $request, GroupModel $group, GroupPostModel $post)
@@ -98,6 +99,6 @@ class GroupPostDiggController extends Controller
             $post->user->extra()->decrement('likes_count');
         });
 
-        abort(204);
+        return response()->json()->setStatusCode(204);
 	}
 }
