@@ -94,4 +94,26 @@ class GroupPost extends Model
 		return $query->where('title', 'like', "%{$keyword}%")
 			->orWhere('content', 'like', "%{$keyword}%");
 	}
+
+    /**
+     * 根据审核状态查询
+     * @param Builder $builder
+     * @param int $audit
+     * @return mixed
+     */
+	public function scopeByAudit(Builder $builder, int $audit): Builder
+    {
+        return $builder->where('is_audit', $audit);
+    }
+
+    /**
+     * 根据圈子查询
+     * @param Builder $builder
+     * @param int $groupId
+     * @return mixed
+     */
+    public function scopeByGroup(Builder $builder, int $groupId): Builder
+    {
+        return $builder->where('group_id', $groupId);
+    }
 }

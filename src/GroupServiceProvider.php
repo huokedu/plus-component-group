@@ -26,6 +26,13 @@ class GroupServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom([
             dirname(__DIR__).'/databases/migrations'
         ]);
+        // Register views files.
+        $this->loadViewsFrom(dirname(__DIR__).'/views', 'group');
+
+        $this->publishes([
+            dirname(__DIR__).'/assets' => $this->app->publicPath().'/Zhiyi/group',
+        ]);
+
     }
 
     /**
@@ -36,11 +43,11 @@ class GroupServiceProvider extends ServiceProvider
     public function register()
     {
         //注入后台导航
-        // $this->app->make(ManageRepository::class)
-        //     ->loadManageFrom('圈子', 'group:admin', [
-        //     'icon' => 'G',
-        //     'route' => true
-        // ]);
+         $this->app->make(ManageRepository::class)
+             ->loadManageFrom('圈子', 'group:admin', [
+             'icon' => 'G',
+             'route' => true
+         ]);
 
         Relation::morphMap([
             'group-posts' => Models\GroupPost::class,

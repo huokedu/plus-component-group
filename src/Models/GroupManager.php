@@ -23,8 +23,8 @@ class GroupManager extends Model
 	// 	return $this->belongsTo(Group::class, 'group_id');
 	// }
 
-	// public function user()
-	// {
-	// 	return $this->hasOne(User::class, '')
-	// }
+	 public function user()
+	 {
+	 	return $this->hasOne(User::class, 'id','user_id');
+	 }
 }
