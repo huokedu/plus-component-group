@@ -10,6 +10,7 @@ GET /groups
 |:----:|:----:|----|
 | limit | Integer | 可选，默认值 15 ，获取条数 |
 | after | Integer | 可选，上次获取到数据最后一条 ID，用于获取该 ID 之后的数据。 |
+| search | string | 可选，搜索关键字 |
 
 > 列表为倒序
 
