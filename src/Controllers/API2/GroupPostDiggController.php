@@ -73,7 +73,7 @@ class GroupPostDiggController extends Controller
         	$post->user->extra()->firstOrCreate([])->increment('likes_count', 1);
 
             // 发送用户通知
-            $user->sendNotifyMessage('group-post:digg', sprintf('%s 点赞了你的圈子动态', $user->name), [
+            $post->user->sendNotifyMessage('group-post:digg', sprintf('%s 点赞了你的圈子动态', $user->name), [
                 'user' => $user,
             ]);
         });
