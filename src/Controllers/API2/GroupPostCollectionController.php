@@ -61,6 +61,7 @@ class GroupPostCollectionController extends Controller
         }
 
        	$post->collections()->create(['user_id' => $user]);
+       	$post->increment('collections', 1);
 
         return response()->json(['message' => '收藏成功'])->setStatusCode(201);
 	}
@@ -82,6 +83,7 @@ class GroupPostCollectionController extends Controller
         }
 
         $post->collections()->where('user_id', $user)->delete();
+		$post->increment('collections', 1);
 
         abort(204);
 	}
