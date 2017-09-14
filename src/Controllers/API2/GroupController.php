@@ -27,8 +27,14 @@ class GroupController extends Controller
 		$limit = $request->query('limit', 15);
 		$after = $request->query('after');
 		$search = $request->query('search');
+		$user = $request->query('user');
 
 		$groups = GroupModel::where('is_audit', 1)
+		->when($user, function ($query) use ($user) {
+			return $query->whereHas('members', function ($query) use ($user) {
+				return $query->where('user_id', $user);
+			})
+		})
 		->when(isset($search), function ($query) use ($search) {
 			$query->where('title', 'LIKE', '%'.$search.'%');
 		})
