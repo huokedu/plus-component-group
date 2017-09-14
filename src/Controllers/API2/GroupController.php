@@ -33,7 +33,7 @@ class GroupController extends Controller
 		->when($user, function ($query) use ($user) {
 			return $query->whereHas('members', function ($query) use ($user) {
 				return $query->where('user_id', $user);
-			})
+			});
 		})
 		->when(isset($search), function ($query) use ($search) {
 			$query->where('title', 'LIKE', '%'.$search.'%');
