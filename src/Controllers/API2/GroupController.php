@@ -126,7 +126,7 @@ class GroupController extends Controller
 	 * @param  ResponseContract $response 
 	 * @return [type] 
 	 */
-	public function show(GroupModel $group, ResponseContract $response)
+	public function show(Request $request, GroupModel $group, ResponseContract $response)
 	{
 		if(!$group->is_audit) {
 			abort(404, '圈子不存在或未通过审核');
@@ -144,6 +144,10 @@ class GroupController extends Controller
 				'founder' => $manager->founder
 			];
 		});
+        $user = $request->user('api')->id ?? 0;
+        $group->is_member = GroupMemberModel::where('user_id', $user)
+            ->where('group_id', $group->id)
+            ->count();
 		return $response->json($group)
 		->setStatusCode(200);
 	}
