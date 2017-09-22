@@ -61,7 +61,7 @@
                         {{ csrf_field() }}
                     </form>
                 </td>
-                <td>{{ $item->founder ? $item->founder->user->name : '' }}</td>
+                <td>{{ $item->founder->user ? $item->founder->user->name : '' }}</td>
                 <td>{{ $item->created_at }}</td>
                 <td>
                     <form action="{{ route('group:delete', $item->id) }}" method="post">

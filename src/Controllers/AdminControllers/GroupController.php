@@ -57,8 +57,10 @@ class GroupController extends Controller
         } catch (ModelNotFoundException $modelNotFoundException) {
             return back()->with('error', '圈子不存在或已被删除');
         }
-        if ($group->is_audit == 1) { // 审核通过发送通知
-            
+        if ($group->is_audit == 1 && $group->founder->user) { // 审核通过给创始人发送通知
+            $group->founder->user->sendNotifyMessage('group:audit', sprintf('你创建的圈子%s通过了审核', $group->title), [
+                'group' => $group,
+            ]);
         }
 
         return back()->with('success', sprintf('"%s"圈子状态更新成功', $group->title));
