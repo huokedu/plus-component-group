@@ -33,14 +33,14 @@ class Group extends Model
 		'managers.user'
 	];
 
-	// /**
-	//  * 创始人
-	//  * @return [type] [description]
-	//  */
-	// public function founder() {
-	// 	return $this->hasOne(GroupManager::class, 'group_id')
-	// 		->where('founder', 1);
-	// }
+	/**
+	 * 创始人
+	 * @return [type] [description]
+	 */
+	public function founder() {
+		return $this->hasOne(GroupManager::class, 'group_id')
+			->where('founder', 1);
+	}
 
 	/**
 	 * 管理者

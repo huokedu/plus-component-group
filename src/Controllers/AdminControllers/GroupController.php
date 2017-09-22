@@ -31,6 +31,7 @@ class GroupController extends Controller
         ->when(!is_null($audit), function ($query) use ($audit) {
             $query->byAudit($audit);
         })
+        ->with('founder', 'founder.user')
         ->orderBy('id', 'desc')
         ->paginate($limit)->appends($request->all());
 
@@ -56,6 +57,10 @@ class GroupController extends Controller
         } catch (ModelNotFoundException $modelNotFoundException) {
             return back()->with('error', '圈子不存在或已被删除');
         }
+        if ($group->is_audit == 1) { // 审核通过发送通知
+            
+        }
+
         return back()->with('success', sprintf('"%s"圈子状态更新成功', $group->title));
     }
 
