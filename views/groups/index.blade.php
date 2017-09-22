@@ -61,7 +61,7 @@
                         {{ csrf_field() }}
                     </form>
                 </td>
-                <td>{{ $item->managers[0]->user->name  }}</td>
+                <td>{{ ($manager = array_first($item->managers)) ? $manager->user->name : '' }}</td>
                 <td>{{ $item->created_at }}</td>
                 <td>
                     <form action="{{ route('group:delete', $item->id) }}" method="post">
