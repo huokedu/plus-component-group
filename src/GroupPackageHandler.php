@@ -9,21 +9,15 @@ use Illuminate\Database\Schema\Blueprint;
 
 class GroupPackageHandler extends PackageHandler
 {
-
-    public function installHandle(Command $command)
+    /**
+     * 运行圈子数据表迁移.
+     *
+     * @author bs<414606094@qq.com>
+     * @param  \Illuminate\Console\Command $command
+     * @return mixed
+     */
+    public function migrateHandle(Command $command)
     {
-    	// if(! $command->comfirm('sure to publish')) {
-    	// 	return;
-    	// }
-
-        // 群组
-    }
-
-    // 升级包 备用
-    public function updateHandle(Command $command)
-    {
-        if( !$command->comfirm('sure to update group component')) {
-            return;
-        }
+        return $command->call('migrate');
     }
 }
