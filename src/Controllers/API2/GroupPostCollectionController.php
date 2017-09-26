@@ -83,7 +83,7 @@ class GroupPostCollectionController extends Controller
         }
 
         $post->collections()->where('user_id', $user)->delete();
-		$post->increment('collections', 1);
+		$post->decrement('collections', 1);
 
         abort(204);
 	}
