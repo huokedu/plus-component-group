@@ -32,6 +32,14 @@ Route::prefix('groups')->group(function() {
     Route::delete('/{groupId}', 'GroupController@delete')
         ->where('groupId', '[0-9]+')
         ->name('group:delete');
+
+    /**
+     * 创建
+     */
+    Route::get('/create', 'GroupController@create')
+        ->name('create:group');
+    Route::post('/post', 'GroupController@create')
+        ->name('post:group');
 });
 
 Route::prefix('posts')->group(function(){

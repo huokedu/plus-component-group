@@ -9,11 +9,23 @@
     @yield('style')
 </head>
 <body>
-    <div class="container">
+    <div class="context-container" style="margin: 15px;">
         @include('group::partials.header')
-        @yield('content')
+        <!-- 提示组件 -->
+        @component('group::component.alert')@endcomponent
+        <div class="panel panel-default" style="margin-top: 15px;">
+            @yield('content')
+        </div>
     </div>
 </body>
 @include('group::partials.javascript')
+<script>
+    function deleteConfirm(title) {
+        $('.del-btn').on('click', function(){
+            var ok = confirm(title);
+            ok && $(this).parent().submit(); 
+        });
+    }
+</script>
 @yield('javascript')
 </html>

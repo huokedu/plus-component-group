@@ -125,5 +125,50 @@ class GroupController extends Controller
         }
         return back()->with('success', '删除圈子成功');
     }
+
+    /**
+     * 创建圈子.
+     * @param  Request $request
+     * @return mixed
+     */
+    public function create(Request $request)
+    {
+        if (strtolower($request->method()) === 'post') {
+
+            $this->validate($request, [
+                'title' => 'required',
+                'intro' => 'required',
+                'founder' => 'required',
+            ],[
+                'title.required' => '圈子标题不能为空',
+                'intro.required' => '圈子描述不能为空',
+                'founder.required' => '圈子创建者不能为空',
+            ]);
+
+            \DB::beginTransaction();
+            try {
+                $model = new Group();
+                $model->title = $request->get('title');
+                $model->intro = $request->get('intro');
+                $model->group_mark = 0;
+                $model->group_client_ip = $request->getClientIp();
+                $model->save();
+
+                $groupManagerModel = new GroupManager();
+                $groupManagerModel->user_id = $request->get('founder');
+                $groupManagerModel->founder = 1;
+                $groupManagerModel->group_id = $model->id;
+                $groupManagerModel->save(); 
+
+                \DB::commit();
+                return redirect()->route('group:admin')->with('success', '圈子创建成功');
+            } catch (\Exception $e) {
+                \DB::rollback(); 
+                return back()->with('error', $e->getMessage());
+            }
+        } else {
+            return view('group::groups.create');
+        }
+    }
 }
 

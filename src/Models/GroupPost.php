@@ -8,10 +8,11 @@ use Zhiyi\Plus\Models\Like;
 use Zhiyi\Plus\Models\FileWith;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GroupPost extends Model
 {	
-	use Relations\PostHasLike;
+	use Relations\PostHasLike, 	SoftDeletes;
 
 	protected $table = 'group_posts';
 
