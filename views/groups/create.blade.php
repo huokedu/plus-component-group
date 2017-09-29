@@ -30,10 +30,10 @@
                         <div class="input-group-btn">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="founder" name="founder" placeholder="圈子创建者ID">
+                                    <input type="text" class="form-control" id="founder" name="founder" placeholder="创建者ID">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="serach">
+                                    <input type="text" class="form-control" id="serach" placeholder="输入用户名搜索">
                                     <ul class="dropdown-menu" style="margin-left:15px;"></ul>
                                 </div>
                             </div>
