@@ -30,7 +30,7 @@ class GroupServiceProvider extends ServiceProvider
         $this->loadViewsFrom(dirname(__DIR__).'/views', 'group');
 
         $this->publishes([
-            dirname(__DIR__).'/assets' => $this->app->publicPath().'/Zhiyi/group',
+            dirname(__DIR__).'/assets' => $this->app->publicPath().'/assets/group',
         ]);
 
     }

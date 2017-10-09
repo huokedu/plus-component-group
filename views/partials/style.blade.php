@@ -1,1 +1,1 @@
-<link rel="stylesheet" href="{{ asset('Zhiyi/group/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/group/css/bootstrap.min.css') }}">
