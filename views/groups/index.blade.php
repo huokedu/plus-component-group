@@ -47,14 +47,14 @@
         @if ($items->count())
             @foreach($items as $item)
                 <tr>
-                    <td>{{ $item->title }}</td>
-                    <td>{{ $item->intro }}</td>
+                    <td class="col-md-1">{{ $item->title }}</td>
+                    <td class="col-md-2">{{ $item->intro }}</td>
                     <td>
                         @if(empty($item->avatar))
                             无
                         @else
                             <a href="{{ url("api/v2/files/{$item->avatar->id}") }}" class="thumbnail" target="_blank">
-                                <img src="{{ url("api/v2/files/{$item->avatar->id}") }}" style="max-width:30px;height:30px;">
+                                <img src="{{ url("api/v2/files/{$item->avatar->id}") }}?w=30&h=30" style="max-width:30px;height:30px;">
                             </a>
                         @endif
                     </td>
@@ -63,7 +63,7 @@
                             无
                         @else
                             <a href="{{ url("api/v2/files/{$item->cover->id}") }}" class="thumbnail" target="_blank">
-                                <img src="{{ url("api/v2/files/{$item->cover->id}") }}" style="max-width:30px;height:30px;">
+                                <img src="{{ url("api/v2/files/{$item->cover->id}") }}?w=30&h=30" style="max-width:30px;height:30px;">
                             </a>
                         @endif
                     </td>
@@ -84,7 +84,7 @@
                     <td>{{ $item->created_at }}</td>
                     <td>
                         <a href="{{ route('edit:group', $item->id) }}" class="btn btn-primary btn-sm">编辑</a>
-                        <form action="{{ route('group:delete', $item->id) }}" method="post">
+                        <form action="{{ route('group:delete', $item->id) }}" method="post" style="display: inline-block;>
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}
                             <button class="btn btn-danger btn-sm del-btn" type="button">删除</button>

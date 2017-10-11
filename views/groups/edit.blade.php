@@ -168,17 +168,17 @@
                     },
                     error: function (response) {}
                 });
-
-                $('.preview').on('click', function (e) {
-                    var url = $(this).parent().parent().find('.preview-input').val();
-                    if (url) {
-                        window.open(url);
-                    } else {
-                        alert('请上传，在预览');
-                    }
-                })
-
             });
+
+            $('.preview').on('click', function (e) {
+                var url = $(this).parent().parent().find('.preview-input').val();
+                console.log(url);
+                if (url) {
+                    window.open(url);
+                } else {
+                    alert('请上传，在预览');
+                }
+            })
         })
     </script>
 @endsection
