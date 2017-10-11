@@ -2,13 +2,13 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\AdminControllers;
 
-use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\Group;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupManager;
-use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPost;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Zhiyi\Plus\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Zhiyi\Plus\Http\Controllers\Controller;
+use Zhiyi\Plus\Models\FileWith as FileWithModel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\Group;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPost;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupManager;
 
 class GroupController extends Controller 
 {
@@ -131,19 +131,11 @@ class GroupController extends Controller
      * @param  Request $request
      * @return mixed
      */
-    public function create(Request $request)
+    public function create(Request $request, FileWithModel $fileWithModel)
     {
         if (strtolower($request->method()) === 'post') {
 
-            $this->validate($request, [
-                'title' => 'required',
-                'intro' => 'required',
-                'founder' => 'required',
-            ],[
-                'title.required' => '圈子标题不能为空',
-                'intro.required' => '圈子描述不能为空',
-                'founder.required' => '圈子创建者不能为空',
-            ]);
+            $this->validate($request, $this->groupRule(), $this->groupMsg());
 
             \DB::beginTransaction();
             try {
@@ -158,7 +150,18 @@ class GroupController extends Controller
                 $groupManagerModel->user_id = $request->get('founder');
                 $groupManagerModel->founder = 1;
                 $groupManagerModel->group_id = $model->id;
-                $groupManagerModel->save(); 
+                $groupManagerModel->save();
+
+                // 保存头像
+                $avatarFileModel = $this->findNotWithFileModels($request->input('avatar'), $fileWithModel);
+                $avatarFileModel->channel = 'group:avatar';
+                $avatarFileModel->raw = $model->id;
+                $avatarFileModel->save();
+                // 保存封面
+                $coverFileModel = $this->findNotWithFileModels($request->input('cover'), $fileWithModel);
+                $coverFileModel->channel = 'group:cover';
+                $coverFileModel->raw = $model->id;
+                $coverFileModel->save();
 
                 \DB::commit();
                 return redirect()->route('group:admin')->with('success', '圈子创建成功');
@@ -169,6 +172,115 @@ class GroupController extends Controller
         } else {
             return view('group::groups.create');
         }
+    }
+
+    public function edit(Request $request, int $groupId, FileWithModel $fileWithModel)
+    {
+        try {
+            $group = Group::findOrFail($groupId);
+        } catch (ModelNotFoundException $modelNotFoundException) {
+            return back()->with('error', '圈子不存在或已被删除');
+        }
+
+        if (strtolower($request->method()) === 'put') {
+
+            $this->validate($request, $this->groupRule(), $this->groupMsg());
+
+            \DB::beginTransaction();
+
+            try {
+                $group->title = $request->get('title');
+                $group->intro = $request->get('intro');
+                $group->group_mark = 0;
+                $group->group_client_ip = $request->getClientIp();
+                $group->save();
+
+                $groupManager = GroupManager::where('group_id', $groupId)->first();
+                $groupManager->user_id = $request->get('founder');
+                $groupManager->founder = 1;
+                $groupManager->save();
+
+                // 保存头像
+                $avatarFileModel = $this->findNotWithFileModels($request->input('avatar'), $fileWithModel);
+                if (! is_null($avatarFileModel)) {
+                    if (! is_null($group->avatar)) {
+                        $group->avatar->delete();
+                    }
+                    $avatarFileModel->channel = 'group:avatar';
+                    $avatarFileModel->raw = $group->id;
+                    $avatarFileModel->save();
+                }
+
+                // 保存封面
+                $coverFileModel = $this->findNotWithFileModels($request->input('cover'), $fileWithModel);
+                if (! is_null($coverFileModel)) {
+                    if (! is_null($group->cover)) {
+                        $group->cover->delete();
+                    }
+                    $coverFileModel->channel = 'group:cover';
+                    $coverFileModel->raw = $group->id;
+                    $coverFileModel->save();
+                }
+
+                \DB::commit();
+                return redirect()->route('group:admin')->with('success', '圈子编辑成功');
+            } catch (\Exception $e) {
+                \DB::rollback();
+                return back()->with('error', $e->getMessage());
+            }
+
+        } else {
+            return view('group::groups.edit', compact('group'));
+        }
+    }
+
+
+    /**
+     * group rule.
+     *
+     * @return array
+     */
+    protected function groupRule() {
+        return  [
+                'title' => 'required',
+                'intro' => 'required',
+                'founder' => 'required',
+                'avatar' => 'bail|required|required_with:files|integer|exists:file_withs,id',
+                'cover' => 'bail|required|required_with:files|integer|exists:file_withs,id',
+        ];
+    }
+
+    /**
+     *  group rule message.
+     *
+     * @return array
+     */
+    protected function groupMsg() {
+        return [
+                'title.required' => '圈子标题不能为空',
+                'intro.required' => '圈子描述不能为空',
+                'founder.required' => '圈子创建者不能为空',
+                'avatar.required' => '圈子头像未上传',
+                'avatar.exists' => '圈子头像不存在或已被使用',
+                'cover.required' => '圈子封面未上传',
+                'cover.exists' => '圈子封面不存在或已被使用',
+        ];
+    }
+
+
+    /**
+     * File not with file models.
+     *
+     * @param int $fileId
+     * @param FileWithModel $fileWithModel
+     * @return mixed
+     */
+    protected function findNotWithFileModels(int $fileId, FileWithModel $fileWithModel)
+    {
+        return $fileWithModel->where('channel', null)
+            ->where('raw', null)
+            ->where('id', $fileId)
+            ->first();
     }
 }
 

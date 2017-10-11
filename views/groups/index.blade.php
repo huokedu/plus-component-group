@@ -33,6 +33,8 @@
             <tr>
                 <th>圈子名</th>
                 <th>简介</th>
+                <th>头像</th>
+                <th>封面</th>
                 <th>动态数</th>
                 <th>成员数</th>
                 <th>状态</th>
@@ -47,6 +49,24 @@
                 <tr>
                     <td>{{ $item->title }}</td>
                     <td>{{ $item->intro }}</td>
+                    <td>
+                        @if(empty($item->avatar))
+                            无
+                        @else
+                            <a href="{{ url("api/v2/files/{$item->avatar->id}") }}" class="thumbnail" target="_blank">
+                                <img src="{{ url("api/v2/files/{$item->avatar->id}") }}" style="max-width:30px;height:30px;">
+                            </a>
+                        @endif
+                    </td>
+                    <td>
+                        @if(empty($item->cover))
+                            无
+                        @else
+                            <a href="{{ url("api/v2/files/{$item->cover->id}") }}" class="thumbnail" target="_blank">
+                                <img src="{{ url("api/v2/files/{$item->cover->id}") }}" style="max-width:30px;height:30px;">
+                            </a>
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('group:posts', $item->id) }}">{{ $item->posts_count }}</a>
                     </td>
@@ -63,6 +83,7 @@
                     <td>{{ !empty($item->founder) ? $item->founder->user->name : '' }}</td>
                     <td>{{ $item->created_at }}</td>
                     <td>
+                        <a href="{{ route('edit:group', $item->id) }}" class="btn btn-primary btn-sm">编辑</a>
                         <form action="{{ route('group:delete', $item->id) }}" method="post">
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}

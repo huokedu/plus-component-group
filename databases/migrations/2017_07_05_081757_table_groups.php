@@ -16,7 +16,7 @@ class TableGroups extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id')->comment('primary key');
             $table->string('title', 10)->index()->comment('title of group');
-            $table->string('intro', 50)->index()->default('')->comment('description fo group');
+            $table->string('intro')->index()->default('')->comment('description fo group');
             $table->tinyInteger('is_audit')->default(0)->comment('audit status for group');
             $table->string('group_client_ip')->nullable()->default('::1')->comment('申请ip');
             $table->integer('posts_count')->default(0)->comment('total posts of group');

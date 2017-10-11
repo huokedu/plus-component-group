@@ -15,7 +15,7 @@
     </div>
     <div class="panel-body">
         <div class="form-horizontal">
-            <form action="{{ route('post:group') }}" method="POST">
+            <form action="{{ route('store:group') }}" method="POST">
                 <div class="col-md-5 col-md-offset-2">
                     <div class="form-group">
                         <label class="control-label">圈子名称：</label>
@@ -23,7 +23,29 @@
                     </div>  
                     <div class="form-group">
                         <label class="control-label">圈子描述：</label>
-                        <textarea class="form-control" placeholder="圈子描述" class="intro" name="intro"></textarea>
+                        <textarea class="form-control" placeholder="圈子描述" class="intro" name="intro" maxlength="191"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">圈子头像：</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control preview-input" id="avatar" disabled>
+                            <input type="text" name="avatar" class="hide" id="avatar-id">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary preview" type="button">预览</button>
+                                <button class="btn btn-default" id="avatar-upload-btn" data-loading-text="上传中" type="button">上传</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">圈子封面：</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control preview-input" id="cover" name="cover" disabled>
+                            <input type="text" name="cover" class="hide" id="cover-id">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary preview" type="button">预览</button>
+                                <button class="btn btn-default" id="cover-upload-btn" data-loading-text="上传中" type="button">上传</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label">圈子创建者：</label>
@@ -46,6 +68,7 @@
                 {{ csrf_field() }}
             </form>
         </div>
+        <input type="file" id="file-input" style="display:none;">
     </div>
 @endsection
 @section('javascript')
@@ -91,6 +114,53 @@ $(function(){
 
     $('#serach').on('blur', function(){
         if (!isDropdownMenu) $('.dropdown-menu').hide();
+    });
+
+    var btnId = '';
+    $('#cover-upload-btn,#avatar-upload-btn').on('click', function (e) {
+        btnId = $(this).attr('id');
+        $('#file-input').click();
+    });
+
+
+    $('#file-input').on('change', function (e) {
+
+        var file = e.target.files[0];
+        var param = new FormData();
+
+        param.append('file', file);
+        param.append('_token', "{{ csrf_token() }}");
+
+        $.ajax({
+            url: "{{ url('api/v2/files') }}",
+            type: 'post',
+            data: param,
+            cache: false,
+            headers: {'Authorization': 'Bearer ' + window.authToken},
+            contentType: false,
+            processData: false,
+            success: function (response) {
+              var url = "{{ url('api/v2/files') }}/"+response.id;
+              if (btnId == 'cover-upload-btn') {
+                  $('#cover').val(url);
+                  $('#cover-id').val(response.id);
+              } else {
+                  $('#avatar').val(url);
+                  $('#avatar-id').val(response.id);
+              }
+            },
+            error: function (response) {}
+        });
+
+        $('.preview').on('click', function (e) {
+            var url = $(this).parent().parent().find('.preview-input').val();
+            if (url) {
+                window.open(url);
+            } else {
+                alert('请上传，在预览');
+            }
+        })
+
     });
 })
 </script>

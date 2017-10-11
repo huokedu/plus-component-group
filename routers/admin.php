@@ -38,8 +38,18 @@ Route::prefix('groups')->group(function() {
      */
     Route::get('/create', 'GroupController@create')
         ->name('create:group');
-    Route::post('/post', 'GroupController@create')
-        ->name('post:group');
+    Route::post('/', 'GroupController@create')
+        ->name('store:group');
+
+    /**
+     * 编辑
+     */
+    Route::get('/{groupId}/edit', 'GroupController@edit')
+        ->where('postId', '[0-9]+')
+        ->name('edit:group');
+    Route::put('/{groupId}/edit', 'GroupController@edit')
+        ->where('postId', '[0-9]+')
+        ->name('put:group');
 });
 
 Route::prefix('posts')->group(function(){

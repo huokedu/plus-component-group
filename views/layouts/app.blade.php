@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @include('group::partials.style')
     @yield('style')
+    <script>
+        window.authToken = "{{ Tymon\JWTAuth\Facades\JWTAuth::fromUser(request()->user()) }}";
+    </script>
 </head>
 <body>
     <div class="context-container" style="margin: 15px;">
