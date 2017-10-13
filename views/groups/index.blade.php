@@ -84,9 +84,9 @@
                     <td>{{ $item->created_at }}</td>
                     <td>
                         <a href="{{ route('edit:group', $item->id) }}" class="btn btn-primary btn-sm">编辑</a>
-                        <form action="{{ route('group:delete', $item->id) }}" method="post" style="display: inline-block;>
-                            {{ method_field('DELETE') }}
+                        <form action="{{ route('group:delete', $item->id) }}" method="post" style="display: inline-block;">
                             {{ csrf_field() }}
+                            {{ method_field('delete') }}
                             <button class="btn btn-danger btn-sm del-btn" type="button">删除</button>
                         </form>
                     </td>
