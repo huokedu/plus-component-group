@@ -21,7 +21,6 @@ Class StorePost extends FormRequest
 	public function rules(): array
 	{
 		return [
-            'title' => 'bail|required|unique:groups|max:30',
             'content' => 'bail|required_without:images|max:10000',
             'images' => ['required_without:content', 'array'],
             'images.*.id' => [
@@ -38,8 +37,6 @@ Class StorePost extends FormRequest
 	public function messages(): array
 	{
 		return [
-			'title.required' => '标题不能为空',
-			'title.max' => '标题最多30个字',
 			'content.required_without' => '内容不能为空',
 			'images.required_without' => '没有发生任何内容',
 			'images.*.id.required_without' => '发送的文件不存在',

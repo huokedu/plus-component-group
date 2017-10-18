@@ -33,7 +33,6 @@
         <table class="table table-responsive">
             <thead>
             <tr>
-                <th>标题</th>
                 <th>圈子</th>
                 <th>阅读数</th>
                 <th>点赞数</th>
@@ -49,7 +48,6 @@
             @if($posts->count())
                     @foreach($posts as $post)
                         <tr>
-                            <td>{{ $post->title }}</td>
                             <td>{{ $post->group->title }}</td>
                             <td>{{ $post->views }}</td>
                             <td><a href="">{{ $post->diggs }}</a></td>

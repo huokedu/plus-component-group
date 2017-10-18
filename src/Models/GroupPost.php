@@ -92,8 +92,7 @@ class GroupPost extends Model
 	 */
 	public function scopeByKeyword(Builder $query, string $keyword): Builder
 	{
-		return $query->where('title', 'like', "%{$keyword}%")
-			->orWhere('content', 'like', "%{$keyword}%");
+		return $query->where('content', 'like', "%{$keyword}%");
 	}
 
     /**

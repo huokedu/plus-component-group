@@ -87,11 +87,10 @@ class GroupPostController extends Controller
 
 		$fileWiths = $this->makeFileWith($request);
 
-		$data = $request->only(['title', 'content', 'group_post_mark']);
+		$data = $request->only(['content', 'group_post_mark']);
 		$user = $request->user('api')->id;
 
 		$post = new GroupPostModel();
-		$post->title = $data['title'];
 		$post->content = $data['content'];
 		$post->group_id = $group->id;
 		$post->user_id = $user;
