@@ -32,7 +32,6 @@ class GroupServiceProvider extends ServiceProvider
         $this->publishes([
             dirname(__DIR__).'/assets' => $this->app->publicPath().'/assets/group',
         ]);
-
     }
 
     /**
@@ -44,7 +43,7 @@ class GroupServiceProvider extends ServiceProvider
     {
         //注入后台导航
          $this->app->make(ManageRepository::class)
-             ->loadManageFrom('圈子', 'group:admin', [
+             ->loadManageFrom('圈子管理', 'group:admin', [
              'icon' => 'G',
              'route' => true
          ]);
