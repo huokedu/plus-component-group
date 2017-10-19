@@ -71,11 +71,7 @@ class GroupPostDiggController extends Controller
         	]);
         	$post->increment('diggs');
         	$post->user->extra()->firstOrCreate([])->increment('likes_count', 1);
-
-            // 发送用户通知
-            $post->user->sendNotifyMessage('group-post:digg', sprintf('%s 点赞了你的圈子动态', $user->name), [
-                'user' => $user,
-            ]);
+            $post->user->unreadCount()->firstOrCreate([])->increment('unread_likes_count', 1);
         });
 
         return response()->json(['message' => '点赞成功'])->setStatusCode(201);

@@ -80,23 +80,12 @@ class GroupPostCommentController extends Controller
             $post->comments()->save($comment);
             $post->increment('comments_count', 1);
             $user->extra()->firstOrCreate([])->increment('comments_count', 1);
+            $post->user->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
         });
-
-		if ($post->user_id !== $user->id) {
-			$message = sprintf('%s 评论了你的帖子', $user->name);
-	        $post->user->sendNotifyMessage('group:comment', $message, [
-	            'post' => $post,
-	            'user' => $user,
-	        ]);
-		}
 
         if ($replyUser && $replyUser !== $user->id) {
             $replyUser = $user->newQuery()->where('id', $replyUser)->first();
-            $message = sprintf('%s 回复了您的帖子评论', $user->name);
-            $replyUser->sendNotifyMessage('group:comment-reply', $message, [
-                'post' => $post,
-                'user' => $user,
-            ]);
+			$replyUser->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
         }
 
         return $response->json([
