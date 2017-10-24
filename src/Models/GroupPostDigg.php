@@ -32,6 +32,15 @@ class GroupPostDigg extends Model
 	}
 
 	/**
+	 * 点赞用户
+	 * @return [type] [description]
+	 */
+	public function user()
+	{
+		return $this->hasOne(User::class, 'id', 'user_id');
+	}
+
+	/**
 	 * 根据用户进行查找
 	 * @param  Builder $query   [description]
 	 * @param  integer $user_id [description]

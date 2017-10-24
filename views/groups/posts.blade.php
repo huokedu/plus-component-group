@@ -35,11 +35,11 @@
                 @foreach($posts as $post)
                     <tr>
                         <td>{{ $post->title }}</td>
-                        <td>{{ $post->content }}</td>
+                        <td class="col-md-3">{{ $post->content }}</td>
                         <td>{{ $post->views }}</td>
-                        <td><a href="">{{ $post->diggs }}</a></td>
-                        <td><a href="">{{ $post->collections }}</a></td>
-                        <td><a href="">{{ $post->comments_count }}</a></td>
+                        <td><a href="{{ route('post:digg', $post->id) }}">{{ $post->diggs }}</a></td>
+                        <td><a href="{{ route('post:collection', $post->id) }}">{{ $post->collections }}</a></td>
+                        <td><a href="{{ route('post:comment', $post->id)}}">{{ $post->comments_count }}</a></td>
                         <td>{{ $post->user->name }}</td>
                         <td>
                             <a class="label {{ $post->is_audit ? 'label-success':'label-danger' }}" href="javascript:;">

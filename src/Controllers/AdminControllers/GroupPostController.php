@@ -2,11 +2,14 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\AdminControllers;
 
+use Illuminate\Http\Request;
+use Zhiyi\Plus\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\Group;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPost;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Zhiyi\Plus\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPostDigg;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPostCollection;
+
 
 class GroupPostController extends Controller
 {
@@ -81,5 +84,49 @@ class GroupPostController extends Controller
             return back()->with('error', '帖子不存在或已被删除');
         }
         return back()->with('success', '删除帖子成功');
+    }
+
+    /**
+     * 帖子收藏列表
+     */
+    public function collection(Request $request, int $postId)
+    {
+        $limit = (int) $request->get('limit', 20);
+
+        $data['items'] = GroupPostCollection::with('user')
+            ->where('post_id', $postId)
+            ->paginate($limit);
+
+        return view('group::posts.collection', $data);
+    }
+
+    /**
+     * 帖子点赞列表
+     */
+    public function digg(Request $request, int $postId)
+    {
+        $limit = (int) $request->get('limit', 20);
+
+        $data = [];
+        $data['items'] = GroupPostDigg::with(['user', 'post'])
+            ->where('post_id', $postId)
+            ->paginate($limit);
+
+        return view('group::posts.digg', $data);
+    }
+
+    /**
+     * 帖子评论列表
+     */
+    public function comment(Request $request, GroupPost $post)
+    {
+        $limit = (int) $request->get('limit', 20);
+
+        $data = [];
+        $data['items'] = $post->comments()
+        ->with(['user', 'target', 'reply'])
+        ->paginate($limit);
+
+        return view('group::posts.comment', $data);
     }
 }

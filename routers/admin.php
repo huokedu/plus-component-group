@@ -71,7 +71,35 @@ Route::prefix('posts')->group(function(){
     Route::delete('/{postId}', 'GroupPostController@delete')
         ->where('postId', '[0-9]+')
         ->name('post:delete');
+
+    /**
+     * 帖子收藏
+     */
+    Route::get('/{postId}/collections', 'GroupPostController@collection')
+        ->where('postId', '[0-9]+')
+        ->name('post:collection');  
+    /**
+     * 帖子点赞
+     */
+    Route::get('/{postId}/diggs', 'GroupPostController@digg')
+        ->where('postId', '[0-9]+')
+        ->name('post:digg');
+
+    /**
+     * 帖子评论
+     */
+    Route::get('/{post}/comments', 'GroupPostController@comment')
+        ->name('post:comment');
+    /**
+     * 帖子删除
+     */
 });
 
+// 帖子评论删除
+Route::delete('comments/{comment}', 'GroupPostCommentController@delete')
+    ->name('posts:comments:delete');
+// 帖子评论列表
+Route::get('comments', 'GroupPostCommentController@index')
+    ->name('posts:comments:index');
 
 

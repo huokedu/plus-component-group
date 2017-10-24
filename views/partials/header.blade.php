@@ -21,6 +21,9 @@
 	        <li role="presentation" class="{{ $segment === 'posts' ? 'active' : '' }}">
 	            <a href="{{ route('groups:posts') }}">帖子管理</a>
 	        </li>
+          <li role="presentation" class="{{ $segment === 'comments' ? 'active' : '' }}">
+              <a href="{{ route('posts:comments:index') }}">帖子评论管理</a>
+          </li>
           </ul>
         </div>    
       </div>

@@ -35,6 +35,15 @@ class GroupPostCollection extends Model
 	}
 
 	/**
+	 * 收藏者
+	 * @return [type] [description]
+	 */
+	public function user()
+	{
+		return $this->hasOne(User::class, 'id', 'user_id');
+	}
+
+	/**
 	 * 根据动态查找
 	 * @param  Builder $query   [description]
 	 * @param  integer $post_id [description]
