@@ -80,7 +80,10 @@ class GroupPostCommentController extends Controller
             $post->comments()->save($comment);
             $post->increment('comments_count', 1);
             $user->extra()->firstOrCreate([])->increment('comments_count', 1);
-            $post->user->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
+
+            if ($post->user->id !== $user->id) {
+            	$post->user->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
+            }
         });
 
         if ($replyUser && $replyUser !== $user->id) {
