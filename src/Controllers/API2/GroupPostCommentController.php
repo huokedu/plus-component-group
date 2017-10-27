@@ -4,6 +4,7 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\API2;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Zhiyi\Plus\Services\Push;
 use Zhiyi\Plus\Http\Controllers\Controller;
 use Zhiyi\Plus\Models\Comment as CommentModel;
 use Zhiyi\Plus\Models\FileWith as FileWithModel;
@@ -83,12 +84,14 @@ class GroupPostCommentController extends Controller
 
             if ($post->user->id !== $user->id) {
             	$post->user->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
+            	app(push::class)->push(sprintf('%s评论了你的帖子', $user->name), (string) $post->user->id, ['channel' => 'group:comment']);
             }
         });
 
         if ($replyUser && $replyUser !== $user->id) {
             $replyUser = $user->newQuery()->where('id', $replyUser)->first();
 			$replyUser->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
+        	app(push::class)->push(sprintf('%s 回复了您的帖子评论', $user->name), (string) $replyUser->id, ['channel' => 'group:comment-reply']);
         }
 
         return $response->json([

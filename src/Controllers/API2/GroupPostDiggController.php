@@ -5,6 +5,7 @@ namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\API2;
 use DB;
 use Zhiyi\Plus\Models\Digg;
 use Illuminate\Http\Request;
+use Zhiyi\Plus\Services\Push;
 use Zhiyi\Plus\Jobs\PushMessage;
 use Illuminate\Database\QueryException;
 use Zhiyi\Plus\Http\Controllers\Controller;
@@ -72,6 +73,7 @@ class GroupPostDiggController extends Controller
         	$post->increment('diggs');
         	$post->user->extra()->firstOrCreate([])->increment('likes_count', 1);
             $post->user->unreadCount()->firstOrCreate([])->increment('unread_likes_count', 1);
+            app(push::class)->push(sprintf('%s点赞了你的圈子', $user->name), (string) $post->user->id, ['channel' => 'group-post:digg']);
         });
 
         return response()->json(['message' => '点赞成功'])->setStatusCode(201);
