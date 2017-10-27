@@ -42,7 +42,7 @@
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->user->name }}</td>
                         <td>{{ $item->target->name }}</td>
-                        <td>{{ $item->reply ? $items->reply->name : '' }}</td>
+                        <td>{{ $item->reply ? $item->reply->name : '' }}</td>
                         <td>{{ $item->body }}</td>
                         <td>{{ $item->created_at }}</td>
                         <td>
