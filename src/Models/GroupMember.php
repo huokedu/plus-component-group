@@ -20,4 +20,9 @@ class GroupMember extends Model
 		'updated_at',
 		'group_id'
 	];
+
+	 public function user()
+	 {
+	 	return $this->hasOne(User::class, 'id','user_id');
+	 }
 }

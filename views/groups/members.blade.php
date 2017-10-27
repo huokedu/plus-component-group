@@ -1,7 +1,7 @@
 @extends('group::layouts.app')
 @section('content')
     <div class="panel-heading">
-        圈子管理员
+        圈子成员
     </div>
     <div class="panel-body">
         <!-- 列表数据 -->
@@ -9,17 +9,18 @@
             <thead>
             <tr>
                 <th>名字</th>
+                <th>状态</th>
             </tr>
             </thead>
             <tbody>
-                @if ($managers->count())
-                    @foreach($managers as $manager)
+                @if ($members->count())
+                    @foreach($members as $member)
                         <tr>
                             <td>
-                                {{ $manager->user->name }}
-                                @if($manager->founder)
-                                    <span class="label label-success">创建者</span>
-                                @endif
+                                {{ $member->user->name }}
+                            </td>
+                            <td>
+                                {{ $member->is_audit ? '未通过' : '通过' }}
                             </td>
                         </tr>
                     @endforeach

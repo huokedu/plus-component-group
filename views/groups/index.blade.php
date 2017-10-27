@@ -37,6 +37,7 @@
                 <th>封面</th>
                 <th>帖子数</th>
                 <th>成员数</th>
+                <th>管理员数</th>
                 <th>状态</th>
                 <th>创建者</th>
                 <th>时间</th>
@@ -71,7 +72,10 @@
                         <a href="{{ route('group:posts', $item->id) }}">{{ $item->posts_count }}</a>
                     </td>
                     <td>
-                        <a href="{{ route('group:managers', $item->id) }}">{{ $item->members_count }}</a>
+                        <a href="{{ route('group:members', $item->id) }}">{{ $item->members_count }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('group:managers', $item->id) }}">{{ $item->managers->count() }}</a>
                     </td>
                     <td>
                         <a class="label {{ $item->is_audit ? 'label-success':'label-danger' }}">{{ $item->is_audit ? '已审核' : '未审核' }}</a>

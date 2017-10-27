@@ -23,9 +23,17 @@ Route::prefix('groups')->group(function() {
     /**
      * 圈子成员
      */
+    Route::get('/{groupId}/members', 'GroupController@members')
+        ->where('groupId', '[0-9]+')
+        ->name('group:members');
+
+    /**
+     * 圈子管理员
+     */
     Route::get('/{groupId}/managers', 'GroupController@managers')
         ->where('groupId', '[0-9]+')
         ->name('group:managers');
+
     /**
      * 删除圈子
      */

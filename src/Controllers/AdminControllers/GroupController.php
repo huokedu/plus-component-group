@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\Group;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupPost;
 use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupManager;
+use Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models\GroupMember;
 
 class GroupController extends Controller 
 {
@@ -102,11 +103,25 @@ class GroupController extends Controller
      * @return mixed
      * @author: huhao <915664508@qq.com>
      */
-    public function managers(int $groupId)
+    public function members(int $groupId)
+    {
+        $members = GroupMember::with('user')->where('group_id', $groupId)->get();
+        $data = [];
+        $data['members'] = $members;
+
+        return view('group::groups.members', $data);
+    }
+
+    /**
+     * 圈子管理员
+     * @param  Int    $groupId [圈子ID]
+     */
+    public function managers(Int $groupId)
     {
         $managers = GroupManager::with('user')->where('group_id', $groupId)->get();
         $data = [];
         $data['managers'] = $managers;
+
         return view('group::groups.managers', $data);
     }
 

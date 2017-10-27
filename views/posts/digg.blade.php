@@ -12,7 +12,7 @@
             <thead>
             <tr>
                 <th>点赞者</th>
-                <th>被点赞动态</th>
+                <th>点赞动态</th>
                 <th>点赞时间</th>
             </tr>
             </thead>
