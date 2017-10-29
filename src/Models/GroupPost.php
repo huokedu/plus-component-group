@@ -2,7 +2,6 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models;
 
-use Zhiyi\Plus\Models\User;
 use Zhiyi\Plus\Models\Comment;
 use Zhiyi\Plus\Models\Like;
 use Zhiyi\Plus\Models\FileWith;

@@ -2,7 +2,6 @@
 
 namespace Zhiyi\Component\ZhiyiPlus\PlusComponentGroup\Models;
 
-use Zhiyi\Plus\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
