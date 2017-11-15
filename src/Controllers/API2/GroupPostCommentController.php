@@ -34,7 +34,7 @@ class GroupPostCommentController extends Controller
 			return $response->json(['message' => ['非法请求']], 403);
 		}
 
-		$limit = $request->query('limit', 20);
+		$limit = $request->query('limit', 15);
 		$after = $request->query('after', false);
 
 		$comments = $post->comments()
