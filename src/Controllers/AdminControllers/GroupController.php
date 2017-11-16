@@ -167,6 +167,8 @@ class GroupController extends Controller
                 $groupManagerModel->group_id = $model->id;
                 $groupManagerModel->save();
 
+                $model->members()->create(['user_id' => $request->get('founder')]);
+
                 // 保存头像
                 $avatarFileModel = $this->findNotWithFileModels($request->input('avatar'), $fileWithModel);
                 $avatarFileModel->channel = 'group:avatar';
@@ -210,7 +212,14 @@ class GroupController extends Controller
                 $group->group_client_ip = $request->getClientIp();
                 $group->save();
 
+               
+
                 $groupManager = GroupManager::where('group_id', $groupId)->first();
+
+                $groupMember = GroupMember::where('user_id', $groupManager->user_id)->first();
+                $groupMember->user_id = $request->get('founder');
+                $groupMember->save();
+
                 $groupManager->user_id = $request->get('founder');
                 $groupManager->founder = 1;
                 $groupManager->save();
