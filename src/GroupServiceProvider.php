@@ -28,10 +28,6 @@ class GroupServiceProvider extends ServiceProvider
         ]);
         // Register views files.
         $this->loadViewsFrom(dirname(__DIR__).'/views', 'group');
-
-        $this->publishes([
-            dirname(__DIR__).'/assets' => $this->app->publicPath().'/assets/group',
-        ]);
     }
 
     /**
