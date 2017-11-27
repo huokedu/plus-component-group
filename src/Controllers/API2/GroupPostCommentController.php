@@ -84,14 +84,14 @@ class GroupPostCommentController extends Controller
 
             if ($post->user->id !== $user->id) {
             	$post->user->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
-            	app(push::class)->push(sprintf('%s评论了你的帖子', $user->name), (string) $post->user->id, ['channel' => 'group:comment']);
+            	app(Push::class)->push(sprintf('%s评论了你的帖子', $user->name), (string) $post->user->id, ['channel' => 'group:comment']);
             }
         });
 
         if ($replyUser && $replyUser !== $user->id && $replyUser !== $post->user_id) {
             $replyUser = $user->newQuery()->where('id', $replyUser)->first();
 			$replyUser->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
-        	app(push::class)->push(sprintf('%s 回复了您的帖子评论', $user->name), (string) $replyUser->id, ['channel' => 'group:comment-reply']);
+        	app(Push::class)->push(sprintf('%s 回复了您的帖子评论', $user->name), (string) $replyUser->id, ['channel' => 'group:comment-reply']);
         }
 
         return $response->json([
