@@ -88,7 +88,7 @@ class GroupPostCommentController extends Controller
             }
         });
 
-        if ($replyUser && $replyUser !== $user->id) {
+        if ($replyUser && $replyUser !== $user->id && $replyUser !== $post->user_id) {
             $replyUser = $user->newQuery()->where('id', $replyUser)->first();
 			$replyUser->unreadCount()->firstOrCreate([])->increment('unread_comments_count', 1);
         	app(push::class)->push(sprintf('%s 回复了您的帖子评论', $user->name), (string) $replyUser->id, ['channel' => 'group:comment-reply']);
